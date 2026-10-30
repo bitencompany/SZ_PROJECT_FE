@@ -7,6 +7,13 @@ export interface Hanja {
   strokes: number;
   element: Element | null;
   isBulyong: boolean | null;
+  dictionaryStrokes: number | null;
+  strokeReview: "unreviewed" | "reference-checked";
+  strokeSources: {
+    title: string;
+    url: string;
+    basis: "dictionary" | "naming-original";
+  }[];
 }
 export interface Fortune {
   title: string;
@@ -20,14 +27,23 @@ export interface NameGrid extends Fortune {
   number: number;
 }
 export interface NameResult {
+  analysisNotice?: string;
   name: string;
-  hanja: Hanja[];
+  hanja: (Hanja | null)[];
   grids: NameGrid[];
   sounds: { syllable: string; element: Element | null }[];
   relations: string[];
 }
 export interface SazuResult {
   sample: boolean;
+  previewId?: string;
+  expiresAt?: string;
+  providerVersion?: string;
+  strength?: { strength: string; analysis?: string };
+  decadeFortune?: {
+    direction: string;
+    list: { startAge: number; full: string }[];
+  };
   pillars: { label: string; value: string | null }[];
   elements: { name: string; count: number }[];
 }

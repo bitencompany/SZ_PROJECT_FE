@@ -1,5 +1,172 @@
 @import "tailwindcss";
 
+.account-nav {
+  display: flex;
+  align-items: center;
+  gap: 18px;
+}
+.account-nav form {
+  margin: 0;
+}
+.account-page {
+  max-width: 860px;
+  margin: 0 auto;
+  padding: 44px 24px 80px;
+}
+.account-card {
+  max-width: 500px;
+  margin: 44px auto 0;
+  padding: 40px;
+  background: #fffef9;
+  border: 1px solid var(--line);
+  border-radius: 16px;
+}
+.account-card-wide {
+  max-width: 720px;
+}
+.account-card h1 {
+  font: 30px/1.5 var(--serif);
+  letter-spacing: -1px;
+  margin: 20px 0;
+}
+.account-card h2 {
+  font-size: 18px;
+  margin-top: 30px;
+}
+.account-card > p {
+  color: #5c6b60;
+}
+.kakao-button {
+  width: 100%;
+  margin-top: 26px;
+  padding: 15px;
+  border: 0;
+  border-radius: 7px;
+  background: #fee500;
+  color: #191919;
+  font-weight: 600;
+}
+.account-back {
+  display: inline-block;
+  margin: 22px 0 10px;
+  font-size: 13px;
+}
+.account-notice {
+  background: #edf1e8;
+  color: #4f6657;
+  padding: 14px 16px;
+  border-radius: 8px;
+  font-size: 13px;
+}
+.detail-offer {
+  margin-top: 28px;
+  padding: 26px;
+  border: 1px solid #cdd8c8;
+  border-radius: 10px;
+  background: #f0f4eb;
+}
+.detail-offer h3 {
+  font: 24px/1.5 var(--serif);
+  margin: 16px 0;
+}
+.detail-offer p,
+.detail-offer li {
+  font-size: 13px;
+  color: #5c6b60;
+}
+.detail-offer ul {
+  padding-left: 20px;
+}
+.checkout-details {
+  margin: 24px 0;
+  border-top: 1px solid var(--line);
+}
+.checkout-details > div {
+  display: grid;
+  grid-template-columns: 100px 1fr;
+  gap: 16px;
+  padding: 14px 0;
+  border-bottom: 1px solid var(--line);
+}
+.checkout-details dt {
+  color: var(--muted);
+}
+.checkout-details dd {
+  margin: 0;
+  overflow-wrap: anywhere;
+}
+.reading-list {
+  list-style: none;
+  padding: 0;
+}
+.reading-list li {
+  padding: 16px 0;
+  border-bottom: 1px solid var(--line);
+}
+.reading-list a {
+  display: flex;
+  justify-content: space-between;
+  gap: 12px;
+}
+.reading-list small {
+  display: block;
+  margin-top: 5px;
+  color: var(--muted);
+}
+.report-section {
+  border-top: 1px solid var(--line);
+  margin-top: 24px;
+  padding-top: 12px;
+}
+.report-section p {
+  white-space: pre-wrap;
+  overflow-wrap: anywhere;
+}
+.stroke-reference {
+  margin: 16px 0;
+  padding: 12px 16px;
+  background: #f7f6ef;
+  border: 1px solid var(--line);
+  border-radius: 6px;
+  font-size: 12px;
+}
+.stroke-reference summary {
+  cursor: pointer;
+  color: #52684f;
+}
+.stroke-reference > div {
+  padding-top: 10px;
+  border-top: 1px solid var(--line);
+  margin-top: 10px;
+}
+.stroke-reference p {
+  margin: 8px 0;
+  color: #677360;
+}
+.stroke-reference a {
+  display: block;
+  text-decoration: underline;
+  padding: 4px 0;
+}
+@media (max-width: 600px) {
+  .account-page {
+    padding: 28px 16px 60px;
+  }
+  .account-card {
+    padding: 24px;
+    margin-top: 28px;
+  }
+  .account-card h1 {
+    font-size: 26px;
+  }
+  .account-nav {
+    gap: 10px;
+  }
+  .detail-offer {
+    padding: 20px;
+  }
+}
+
 :root {
   --paper: #f7f6f1;
   --ink: #263d38;
@@ -731,6 +898,7 @@ dialog::backdrop {
 }
 .result-name {
   display: flex;
+  flex-wrap: wrap;
   justify-content: center;
   gap: 45px;
   padding: 22px 10px 30px;
@@ -1156,4 +1324,45 @@ dialog::backdrop {
   * {
     transition: none !important;
   }
+}
+
+.name-fields {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(0, 2fr);
+  gap: 14px;
+}
+.name-fields label {
+  display: block;
+  margin: 0 0 10px;
+  font-size: 13px;
+}
+.name-fields input {
+  width: 100%;
+  min-width: 0;
+}
+.hanja-choice {
+  min-width: 0;
+}
+.hanja-choice .hanja-slot {
+  width: 100%;
+}
+.no-hanja-check {
+  justify-content: center;
+  gap: 6px;
+  font-size: 12px;
+  margin: 12px 0 6px;
+}
+@media (max-width: 480px) {
+  .name-fields {
+    grid-template-columns: minmax(0, 1fr) minmax(0, 1.5fr);
+    gap: 10px;
+  }
+  .hanja-slots {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+.reading-card h2,
+.account-card h1,
+.checkout-details dd {
+  overflow-wrap: anywhere;
 }

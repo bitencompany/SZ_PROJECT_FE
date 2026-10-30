@@ -30,7 +30,7 @@ export function soundElement(syllable: string): Element | null {
   };
   return groups[initial] ?? null;
 }
-function relationship(a: Element | null, b: Element | null): string {
+export function relationship(a: Element | null, b: Element | null): string {
   if (!a || !b) return "분류 확인 필요";
   if (a === b) return "같은 오행";
   const generating: Record<Element, Element> = {

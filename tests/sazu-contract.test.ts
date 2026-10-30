@@ -10,7 +10,7 @@ const input = {
   birthCity: "서울",
   consent: true,
 };
-test("생년월일을 SAZU 공식 camelCase 계약으로 변환하고 이름은 보내지 않는다", (): void => {
+test("생년월일을 BE camelCase 계약으로 변환하고 이름은 보내지 않는다", (): void => {
   assert.deepEqual(toSazuRequest(birthSchema.parse(input)), {
     birthYear: 1998,
     birthMonth: 5,
@@ -19,6 +19,8 @@ test("생년월일을 SAZU 공식 camelCase 계약으로 변환하고 이름은 
     birthMinute: 0,
     isFemale: false,
     isLunar: false,
+    isLeapMonth: false,
+    trueSolarTime: false,
     birthCity: "서울",
   });
   assert.equal(
@@ -57,6 +59,8 @@ test("실제 날짜·윤년·미래·시각·동의를 검증한다", (): void =
 const response = {
   success: true,
   data: {
+    source: "SAZU",
+    sandbox: true,
     modules: {
       fourPillars: {
         year: { full: "甲子" },
@@ -67,7 +71,6 @@ const response = {
       elements: { wood: { name: "목", total: { count: 2 } } },
     },
   },
-  meta: { sample: true },
 };
 test("SAZU 샘플 플래그와 시주 미상을 보존하고 허용 필드만 반환한다", (): void => {
   const parsed = parseSazuResponse(response);
@@ -85,4 +88,23 @@ test("잘못된 API 응답을 정상 분석으로 표시하지 않는다", (): v
   assert.throws(() =>
     parseSazuResponse({ success: true, data: { modules: {} } }),
   );
+});
+
+test("BE 시각 미상은 분 0으로 전송하고 선택 모듈 누락은 없는 것으로 유지한다", () => {
+  const unknown = toSazuRequest(
+    birthSchema.parse({ ...input, birthTime: null }),
+  );
+  assert.equal(unknown.birthHour, null);
+  assert.equal(unknown.birthMinute, 0);
+  const parsed = parseSazuResponse({
+    success: true,
+    data: {
+      source: "SAZU",
+      sandbox: false,
+      modules: { fourPillars: response.data.modules.fourPillars },
+    },
+  });
+  assert.deepEqual(parsed.elements, []);
+  assert.equal(parsed.strength, undefined);
+  assert.equal(parsed.sample, false);
 });

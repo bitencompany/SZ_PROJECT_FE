@@ -1,31 +1,40 @@
+import { cookies } from "next/headers";
 import { birthSchema } from "@/lib/validation";
-import { fetchSazu, SazuError } from "@/lib/sazu";
-
+import { fetchSazu } from "@/lib/sazu";
+import { BackendError } from "@/lib/backend";
+import {
+  checkMutationOrigin,
+  errorResponse,
+  privateHeaders,
+  readJson,
+} from "@/lib/bff-http";
+import {
+  previewVisitor,
+  trustedPreviewIp,
+  VISITOR_COOKIE,
+} from "@/lib/preview-visitor";
+import { authCookieOptions } from "@/lib/auth/config";
 export async function POST(request: Request): Promise<Response> {
   try {
-    const body: string = await request.text();
-    if (body.length > 4096)
-      return Response.json(
-        { error: "입력 데이터가 너무 큽니다." },
-        { status: 413 },
-      );
-    const parsed = birthSchema.safeParse(JSON.parse(body) as unknown);
+    checkMutationOrigin(request);
+    const parsed = birthSchema.strict().safeParse(await readJson(request));
     if (!parsed.success)
-      return Response.json(
-        { error: "생년월일·태어난 시간·정보 제공 동의를 확인해 주세요." },
-        { status: 400 },
+      throw new BackendError(
+        "출생 정보와 제공 동의를 확인해 주세요.",
+        400,
+        "INVALID_INPUT",
       );
-    const result = await fetchSazu(parsed.data);
-    return Response.json(
-      { data: result },
-      { headers: { "Cache-Control": "no-store" } },
-    );
-  } catch (error: unknown) {
-    if (error instanceof SazuError)
-      return Response.json({ error: error.message }, { status: error.status });
-    return Response.json(
-      { error: "입력 정보를 처리하지 못했어요. 다시 시도해 주세요." },
-      { status: 400 },
-    );
+    const ip = trustedPreviewIp(request.headers);
+    const store = await cookies();
+    const visitor = previewVisitor(store.get(VISITOR_COOKIE)?.value);
+    // 실패 응답에도 같은 익명 쿠키를 유지해 요청마다 새 ID로 한도를 우회하지 않게 합니다.
+    store.set(VISITOR_COOKIE, visitor.cookie, {
+      ...authCookieOptions,
+      maxAge: 86400,
+    });
+    const result = await fetchSazu(parsed.data, { ip, id: visitor.id });
+    return Response.json({ data: result }, { headers: privateHeaders });
+  } catch (error) {
+    return errorResponse(error);
   }
 }

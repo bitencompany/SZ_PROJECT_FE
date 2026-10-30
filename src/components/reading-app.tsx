@@ -7,16 +7,52 @@ import {
   type FormEvent,
   type ReactNode,
 } from "react";
-import { hanjaList } from "@/data/hanja";
+import { hanjaResponseSchema, nameResponseSchema } from "@/lib/name-contract";
+import {
+  clearDraft,
+  readDraft,
+  writeDraft,
+  sameDraftInput,
+} from "@/lib/reading-draft";
+import {
+  selectionMode,
+  resizeNameSelection,
+  type HanjaSelection,
+} from "@/lib/name-input";
+import { apiMessage } from "@/lib/client-api";
+import { StrokeReference } from "./stroke-reference";
 import type { Hanja, NameResult, SazuResult } from "@/lib/types";
-import { birthSchema } from "@/lib/validation";
+import {
+  birthSchema,
+  nameInputSchema,
+  supportsStoredName,
+} from "@/lib/validation";
 
 class ReadingError extends Error {}
 
-export function ReadingApp(): ReactNode {
+export function ReadingApp({
+  signedIn = false,
+}: {
+  signedIn?: boolean;
+}): ReactNode {
+  const [hanjaList, setHanjaList] = useState<Hanja[]>([]);
+  const [hanjaLoading, setHanjaLoading] = useState<boolean>(false);
+  const [hanjaError, setHanjaError] = useState<string>("");
+  const [catalogStatus, setCatalogStatus] = useState<"preview" | "verified">(
+    "preview",
+  );
+  const [resultCatalog, setResultCatalog] = useState<"preview" | "verified">(
+    "preview",
+  );
+  const [restored, setRestored] = useState<boolean>(false);
+  const [lookupRetry, setLookupRetry] = useState<number>(0);
   const [step, setStep] = useState<number>(1);
-  const [name, setName] = useState<string>("");
-  const [ids, setIds] = useState<string[]>(["", "", ""]);
+  const [surname, setSurname] = useState("");
+  const [givenName, setGivenName] = useState("");
+  const name = surname + givenName;
+  const surnameLength = surname.length;
+  const [ids, setIds] = useState<HanjaSelection[]>([]);
+  const nameMode = selectionMode(ids);
   const [active, setActive] = useState<number | null>(null);
   const [query, setQuery] = useState<string>("");
   const dialog = useRef<HTMLDialogElement>(null);
@@ -33,7 +69,25 @@ export function ReadingApp(): ReactNode {
   const [result, setResult] = useState<NameResult | null>(null);
   const [sazu, setSazu] = useState<SazuResult | null>(null);
   const [sazuLoading, setSazuLoading] = useState<boolean>(false);
-  const selected: (Hanja | undefined)[] = ids.map((id: string) =>
+  const inputSignature = JSON.stringify([
+    name,
+    nameMode,
+    surnameLength,
+    ids,
+    birthDate,
+    birthTime,
+    unknownTime,
+    gender,
+    birthCity,
+  ]);
+  const liveInput = useRef(inputSignature);
+  liveInput.current = inputSignature;
+  useEffect(() => {
+    setSazu(null);
+    setResult(null);
+    setSazuError("");
+  }, [inputSignature]);
+  const selected: (Hanja | undefined)[] = ids.map((id) =>
     hanjaList.find((item: Hanja): boolean => item.id === id),
   );
   const candidates: Hanja[] =
@@ -45,11 +99,139 @@ export function ReadingApp(): ReactNode {
             `${item.character}${item.meaning}`.includes(query),
         );
   const complete: boolean =
-    /^[가-힣]{3}$/.test(name) &&
+    nameInputSchema.safeParse({ name, nameMode, surnameLength, hanjaIds: ids })
+      .success &&
     selected.every(
-      (item: Hanja | undefined, index: number): boolean =>
-        !!item && item.reading === name[index],
+      (item, index) =>
+        ids[index] === null || (!!item && item.reading === name[index]),
     );
+
+  useEffect(() => {
+    const draft = readDraft();
+    if (!draft) return;
+    setSurname(draft.name.slice(0, draft.surnameLength));
+    setGivenName(draft.name.slice(draft.surnameLength));
+    setIds(draft.ids);
+    setBirthDate(draft.birthDate);
+    setBirthTime(draft.birthTime);
+    setUnknownTime(draft.unknownTime);
+    setGender(draft.gender);
+    setBirthCity(draft.birthCity);
+    setStep(draft.step);
+    setRestored(true);
+    // 정보 제공 동의는 복원하지 않고, 외부 API 재조회 전에 다시 받습니다.
+  }, []);
+
+  const lookupReadingsKey = JSON.stringify([
+    ...new Set(
+      [...name].filter(
+        (value, index) =>
+          (ids[index] !== null || active === index) && /^[가-힣]$/.test(value),
+      ),
+    ),
+  ]);
+  useEffect(() => {
+    const readings: string[] = JSON.parse(lookupReadingsKey);
+    if (!readings.length) {
+      setHanjaList([]);
+      setHanjaLoading(false);
+      setHanjaError("");
+      return;
+    }
+    const controller = new AbortController();
+    setHanjaLoading(true);
+    setHanjaError("");
+    setHanjaList([]);
+    const timer = setTimeout(() => {
+      void Promise.all(
+        readings.map(async (reading) => {
+          const response = await fetch(
+            `/api/hanja?${new URLSearchParams({ reading })}`,
+            { signal: controller.signal },
+          );
+          if (!response.ok) throw new Error("Hanja unavailable");
+          return hanjaResponseSchema.parse(await response.json());
+        }),
+      )
+        .then((responses) => {
+          if (controller.signal.aborted) return;
+          setHanjaList(responses.flatMap((response) => response.data));
+          setCatalogStatus(
+            responses.every(
+              (response) => response.catalog.status === "verified",
+            )
+              ? "verified"
+              : "preview",
+          );
+        })
+        .catch(() => {
+          if (!controller.signal.aborted)
+            setHanjaError("한자 목록을 불러오지 못했어요. 다시 시도해 주세요.");
+        })
+        .finally(() => {
+          if (!controller.signal.aborted) setHanjaLoading(false);
+        });
+    }, 150);
+    return () => {
+      clearTimeout(timer);
+      controller.abort();
+    };
+  }, [lookupReadingsKey, lookupRetry]);
+
+  function saveInput(): boolean {
+    const input = {
+      name,
+      nameMode,
+      surnameLength,
+      ids,
+      birthDate,
+      birthTime,
+      unknownTime,
+      gender,
+      birthCity,
+    };
+    const previous = readDraft();
+    return writeDraft({
+      version: 1,
+      id:
+        previous && sameDraftInput(previous, input)
+          ? previous.id
+          : crypto.randomUUID(),
+      savedAt: Date.now(),
+      name,
+      nameMode,
+      surnameLength: surnameLength === 2 ? 2 : 1,
+      ids,
+      birthDate,
+      birthTime,
+      unknownTime,
+      gender,
+      birthCity,
+      step: result ? 2 : step === 2 ? 2 : 1,
+      ...(sazu?.previewId &&
+      sazu.expiresAt &&
+      sazu.providerVersion &&
+      Date.parse(sazu.expiresAt) > Date.now()
+        ? {
+            preview: {
+              id: sazu.previewId,
+              expiresAt: sazu.expiresAt,
+              providerVersion: sazu.providerVersion,
+            },
+          }
+        : {}),
+    });
+  }
+
+  function continueToDetail(): void {
+    if (!saveInput()) {
+      setError(
+        "입력 내용을 보관하지 못했어요. 브라우저의 사이트 저장소를 허용한 뒤 다시 시도해 주세요.",
+      );
+      return;
+    }
+    window.location.assign(signedIn ? "/checkout" : "/login?next=%2Fcheckout");
+  }
 
   useEffect((): void => {
     if (active !== null && !dialog.current?.open) dialog.current?.showModal();
@@ -59,18 +241,28 @@ export function ReadingApp(): ReactNode {
     if (result) resultHeading.current?.focus();
   }, [result]);
 
-  function updateName(value: string): void {
-    setName(value);
-    setIds((previous: string[]): string[] =>
-      previous.map((id: string, index: number): string =>
-        value[index] === name[index] ? id : "",
-      ),
-    );
+  function updateName(part: "surname" | "givenName", value: string): void {
+    // 성의 길이가 달라져도 이름 쪽 한자/한자 없음 선택은 해당 글자에 남깁니다.
+    const surnameIds = ids.slice(0, surnameLength);
+    const givenIds = ids.slice(surnameLength);
+    if (part === "surname") {
+      setSurname(value);
+      setIds([...resizeNameSelection(surname, value, surnameIds), ...givenIds]);
+    } else {
+      setGivenName(value);
+      setIds([
+        ...surnameIds,
+        ...resizeNameSelection(givenName, value, givenIds),
+      ]);
+    }
+    setActive(null);
     setError("");
   }
   function sampleName(): void {
-    setName("김서준");
+    setSurname("김");
+    setGivenName("서준");
     setIds(["김-金", "서-書", "준-俊"]);
+    setActive(null);
     setError("");
   }
   function sampleBirth(): void {
@@ -83,8 +275,27 @@ export function ReadingApp(): ReactNode {
   }
   async function analyze(event?: FormEvent<HTMLFormElement>): Promise<void> {
     event?.preventDefault();
+    const requestedInput = inputSignature;
     if (!complete) {
-      setError("한글 이름과 한자 세 글자를 모두 선택해 주세요.");
+      setError(
+        "성과 이름을 입력한 뒤 각 글자의 한자를 선택하거나 ‘한자가 아니에요’를 체크해 주세요.",
+      );
+      return;
+    }
+    const hasBirth = step === 2 && !!(birthDate || birthTime);
+    if (
+      hasBirth &&
+      !birthSchema.safeParse({
+        birthDate,
+        birthTime: unknownTime ? null : birthTime,
+        gender,
+        birthCity,
+        consent,
+      }).success
+    ) {
+      setError(
+        "출생 정보와 정보 제공 동의를 확인해 주세요. 시간 미상이면 ‘시간을 몰라요’를 선택해 주세요.",
+      );
       return;
     }
     setLoading(true);
@@ -95,13 +306,34 @@ export function ReadingApp(): ReactNode {
       const response: Response = await fetch("/api/name", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ name, hanjaIds: ids }),
-        signal: AbortSignal.timeout(15000),
+        body: JSON.stringify({ name, nameMode, surnameLength, hanjaIds: ids }),
+        signal: AbortSignal.timeout(25000),
       });
       const body: { data?: NameResult; error?: string } = await response.json();
       if (!response.ok || !body.data)
-        throw new ReadingError(body.error ?? "분석 결과를 불러오지 못했어요.");
-      setResult(body.data);
+        throw new ReadingError(
+          apiMessage(body, "분석 결과를 불러오지 못했어요."),
+        );
+      if (requestedInput !== liveInput.current) return;
+      const validated = nameResponseSchema.parse(body);
+      writeDraft({
+        version: 1,
+        id: crypto.randomUUID(),
+        savedAt: Date.now(),
+        name,
+        nameMode,
+        surnameLength: surnameLength === 2 ? 2 : 1,
+        ids,
+        birthDate,
+        birthTime,
+        unknownTime,
+        gender,
+        birthCity,
+        step: 2,
+      });
+      setResult(validated.data);
+      setResultCatalog(validated.catalog.status);
+      if (hasBirth) await analyzeSazu();
     } catch (cause: unknown) {
       setError(
         cause instanceof ReadingError
@@ -113,6 +345,7 @@ export function ReadingApp(): ReactNode {
     }
   }
   async function analyzeSazu(): Promise<void> {
+    const requestedInput = inputSignature;
     const parsed = birthSchema.safeParse({
       birthDate,
       birthTime: unknownTime ? null : birthTime,
@@ -133,11 +366,14 @@ export function ReadingApp(): ReactNode {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(parsed.data),
-        signal: AbortSignal.timeout(20000),
+        signal: AbortSignal.timeout(25000),
       });
       const body: { data?: SazuResult; error?: string } = await response.json();
       if (!response.ok || !body.data)
-        throw new ReadingError(body.error ?? "사주 결과를 불러오지 못했어요.");
+        throw new ReadingError(
+          apiMessage(body, "사주 결과를 불러오지 못했어요."),
+        );
+      if (requestedInput !== liveInput.current) return;
       setSazu(body.data);
     } catch (cause: unknown) {
       setSazuError(
@@ -157,9 +393,22 @@ export function ReadingApp(): ReactNode {
           <span className="brand-mark">결</span>이름결
           <span className="brand-english">IREUMGYEOL</span>
         </a>
-        <a className="header-link" href="#about">
-          이름결이 전하는 이야기 <span aria-hidden>↗</span>
-        </a>
+        <nav className="account-nav" aria-label="회원 메뉴">
+          <a
+            className="header-link"
+            href={signedIn ? "/my/readings" : "/login?next=%2Fmy%2Freadings"}
+            onClick={() => {
+              saveInput();
+            }}
+          >
+            내 풀이함 ↗
+          </a>
+          {signedIn && (
+            <form action="/auth/logout" method="post" onSubmit={clearDraft}>
+              <button className="text-button">로그아웃</button>
+            </form>
+          )}
+        </nav>
       </header>
       <main>
         <section className="hero">
@@ -198,7 +447,11 @@ export function ReadingApp(): ReactNode {
             <span className="art-star">✳</span>
           </div>
         </section>
-        <section className="workspace" aria-label="이름과 사주 분석">
+        <section
+          className="workspace"
+          id="reading"
+          aria-label="이름과 사주 분석"
+        >
           <aside className="guide">
             <span className="section-index">01 — YOUR STORY</span>
             <h2>
@@ -241,6 +494,12 @@ export function ReadingApp(): ReactNode {
             </div>
           </aside>
           <div className="reading-card">
+            {restored && (
+              <p className="account-notice" role="status">
+                작성하던 내용을 불러왔어요. 사주를 다시 조회할 때 정보 제공에
+                동의해 주세요.
+              </p>
+            )}
             {!result ? (
               <>
                 <div className="card-top">
@@ -260,7 +519,7 @@ export function ReadingApp(): ReactNode {
                         setError("");
                       } else
                         setError(
-                          "한글 이름과 한자 세 글자를 모두 선택해 주세요.",
+                          "성과 이름을 입력한 뒤 각 글자의 한자를 선택하거나 ‘한자가 아니에요’를 체크해 주세요.",
                         );
                     } else void analyze();
                   }}
@@ -269,10 +528,10 @@ export function ReadingApp(): ReactNode {
                     <>
                       <h2>어떤 이름으로 불리시나요?</h2>
                       <p className="card-description">
-                        이름에 쓰인 정확한 한자를 선택해 주세요.
+                        성과 이름을 나누어 적고, 각 글자의 한자를 확인해 주세요.
                       </p>
                       <div className="label-row">
-                        <label htmlFor="korean-name">한글 이름</label>
+                        <span>한글 성과 이름</span>
                         <button
                           className="text-button"
                           type="button"
@@ -281,20 +540,41 @@ export function ReadingApp(): ReactNode {
                           예시로 채우기 ↗
                         </button>
                       </div>
-                      <input
-                        id="korean-name"
-                        className="name-input"
-                        autoComplete="off"
-                        placeholder="예: 김서준"
-                        maxLength={3}
-                        value={name}
-                        onChange={(event): void =>
-                          updateName(event.target.value)
-                        }
-                        aria-describedby="name-help"
-                      />
+                      <div className="name-fields">
+                        <div>
+                          <label htmlFor="surname">성</label>
+                          <input
+                            id="surname"
+                            className="name-input"
+                            autoComplete="off"
+                            placeholder="예: 김, 남궁"
+                            maxLength={2}
+                            value={surname}
+                            onChange={(event) =>
+                              updateName("surname", event.target.value)
+                            }
+                            aria-describedby="name-help"
+                          />
+                        </div>
+                        <div>
+                          <label htmlFor="given-name">이름</label>
+                          <input
+                            id="given-name"
+                            className="name-input"
+                            autoComplete="off"
+                            placeholder="예: 하늘"
+                            maxLength={19}
+                            value={givenName}
+                            onChange={(event) =>
+                              updateName("givenName", event.target.value)
+                            }
+                            aria-describedby="name-help"
+                          />
+                        </div>
+                      </div>
                       <p id="name-help" className="field-help">
-                        첫 버전은 성 1글자 + 이름 2글자를 지원해요.
+                        성 1~2글자 · 성과 이름을 합해 한글 2~20글자까지 입력할
+                        수 있어요.
                       </p>
                       <div className="label-row hanja-label">
                         <span>이름의 한자</span>
@@ -302,44 +582,102 @@ export function ReadingApp(): ReactNode {
                           각 글자를 눌러 선택해 주세요
                         </span>
                       </div>
-                      <div className="hanja-slots">
-                        {[0, 1, 2].map((index: number): ReactNode => (
+                      <p className="field-help">
+                        한자가 없는 글자는 아래 ‘한자가 아니에요’를 체크해
+                        주세요. 성만 한자여도 괜찮아요.
+                      </p>
+                      {hanjaLoading && (
+                        <p className="field-help" role="status">
+                          한자 목록을 불러오고 있어요…
+                        </p>
+                      )}
+                      {hanjaError && (
+                        <p className="error-message" role="alert">
+                          {hanjaError}{" "}
                           <button
-                            className={`hanja-slot ${selected[index] ? "chosen" : ""}`}
-                            key={index}
+                            className="text-button"
                             type="button"
-                            disabled={!/^[가-힣]$/.test(name[index] ?? "")}
-                            onClick={(): void => {
-                              setQuery("");
-                              setActive(index);
-                            }}
-                            aria-label={`${index === 0 ? "성" : `이름 ${index}`} ${name[index] ?? ""} 한자 선택`}
+                            onClick={() => setLookupRetry((value) => value + 1)}
                           >
-                            <span className="slot-position">
-                              {index === 0 ? "성" : `이름 ${index}`}
-                            </span>
-                            <strong>
-                              {selected[index]?.character ?? name[index] ?? "—"}
-                            </strong>
-                            <span className="slot-meaning">
-                              {selected[index]
-                                ? `${selected[index]?.meaning} ${name[index]}`
-                                : "한자 선택 +"}
-                            </span>
-                            {selected[index] && (
-                              <small>
-                                원획 {selected[index]?.strokes}획 <span>✓</span>
-                              </small>
-                            )}
+                            다시 불러오기
                           </button>
+                        </p>
+                      )}
+                      <div className="hanja-slots">
+                        {[...name].map((_, index: number): ReactNode => (
+                          <div
+                            className="hanja-choice"
+                            key={`${index < surnameLength ? "surname" : "given"}-${index < surnameLength ? index : index - surnameLength}`}
+                          >
+                            <button
+                              className={`hanja-slot ${selected[index] || ids[index] === null ? "chosen" : ""}`}
+                              type="button"
+                              disabled={!/^[가-힣]$/.test(name[index] ?? "")}
+                              onClick={(): void => {
+                                setQuery("");
+                                setActive(index);
+                              }}
+                              aria-label={`${index < surnameLength ? `성 ${index + 1}` : `이름 ${index - surnameLength + 1}`} ${name[index] ?? ""} 한자 선택`}
+                            >
+                              <span className="slot-position">
+                                {index < surnameLength
+                                  ? `성 ${index + 1}`
+                                  : `이름 ${index - surnameLength + 1}`}
+                              </span>
+                              <strong>
+                                {selected[index]?.character ??
+                                  name[index] ??
+                                  "—"}
+                              </strong>
+                              <span className="slot-meaning">
+                                {selected[index]
+                                  ? `${selected[index]?.meaning} ${name[index]}`
+                                  : ids[index] === null
+                                    ? "한자 없음"
+                                    : "한자 선택 +"}
+                              </span>
+                              {selected[index] && (
+                                <small>
+                                  {selected[index]?.strokeReview ===
+                                  "unreviewed"
+                                    ? "예시 원획"
+                                    : "원획"}{" "}
+                                  {selected[index]?.strokes}획 <span>✓</span>
+                                </small>
+                              )}
+                            </button>
+                            <label className="checkbox-row no-hanja-check">
+                              <input
+                                type="checkbox"
+                                checked={ids[index] === null}
+                                disabled={!/^[가-힣]$/.test(name[index] ?? "")}
+                                aria-label={`${index < surnameLength ? `성 ${index + 1}` : `이름 ${index - surnameLength + 1}`} ${name[index]} 한자가 아니에요`}
+                                onChange={(event) => {
+                                  const checked = event.target.checked;
+                                  setIds((previous) =>
+                                    previous.map((id, position) =>
+                                      position === index
+                                        ? checked
+                                          ? null
+                                          : ""
+                                        : id,
+                                    ),
+                                  );
+                                  setError("");
+                                }}
+                              />
+                              <span>한자가 아니에요</span>
+                            </label>
+                          </div>
                         ))}
                       </div>
+                      <StrokeReference items={selected} />
                       <div className="inline-note">
                         <span>ⓘ</span>
                         <p>
-                          현재는 일부 한자만 제공하는 체험 버전이에요.
-                          <br />
-                          목록에 없는 한자는 전체 한자 DB 도입 후 지원합니다.
+                          {catalogStatus === "preview"
+                            ? "현재는 예시 한자로 분석하는 체험 버전이에요. 전체 인명용 한자 DB는 준비 중입니다."
+                            : "이름에 실제로 쓰는 한자를 직접 선택해 주세요. 같은 음이라도 한자에 따라 뜻과 원획수가 달라요."}
                         </p>
                       </div>
                     </>
@@ -484,7 +822,7 @@ export function ReadingApp(): ReactNode {
                       ? "이름의 이야기를 살펴보고 있어요…"
                       : step === 1
                         ? "다음, 태어난 순간 알아보기"
-                        : "나의 이름결 확인하기"}
+                        : "무료 미리보기 확인하기"}
                     <span aria-hidden>→</span>
                   </button>
                   <div className="card-bottom">
@@ -523,7 +861,7 @@ export function ReadingApp(): ReactNode {
                   <button
                     type="button"
                     className="text-button"
-                    disabled={sazuLoading}
+                    disabled={sazuLoading || loading}
                     onClick={(): void => {
                       setResult(null);
                       setSazu(null);
@@ -537,51 +875,78 @@ export function ReadingApp(): ReactNode {
                   {result.name}님, 이름 속 이야기를 만나보세요.
                 </h2>
                 <p className="card-description">
-                  예시 한자 데이터로 계산한 성명학 체험 결과예요.
+                  {nameMode === "hangul"
+                    ? "한자 없는 이름의 발음오행 미리보기예요."
+                    : resultCatalog === "preview"
+                      ? "예시 한자 데이터로 계산한 무료 미리보기예요."
+                      : "선택한 이름과 한자로 계산한 무료 미리보기예요."}
                 </p>
-                <div className="result-name">
-                  {result.hanja.map((item: Hanja): ReactNode => (
-                    <div key={item.id}>
-                      <strong>{item.character}</strong>
-                      <span>
-                        {item.meaning} {item.reading}
-                      </span>
-                      <small>원획 {item.strokes}획</small>
+                {result.hanja.length > 0 && (
+                  <div className="result-name">
+                    {result.hanja.map(
+                      (item: Hanja | null, index: number): ReactNode => (
+                        <div key={`${index}-${item?.id ?? "hangul"}`}>
+                          <strong>
+                            {item?.character ?? result.name[index]}
+                          </strong>
+                          <span>
+                            {item
+                              ? `${item.meaning} ${item.reading}`
+                              : "한자 없음"}
+                          </span>
+                          {item && (
+                            <small>
+                              {item.strokeReview === "unreviewed"
+                                ? "예시 원획"
+                                : "원획"}{" "}
+                              {item.strokes}획
+                            </small>
+                          )}
+                        </div>
+                      ),
+                    )}
+                  </div>
+                )}
+                <StrokeReference items={result.hanja} />
+                {result.analysisNotice && (
+                  <p className="account-notice">{result.analysisNotice}</p>
+                )}
+                {result.grids.length > 0 && (
+                  <>
+                    <div className="result-title">
+                      <h3>원형이정, 네 가지 이름의 흐름</h3>
+                      <span>81수리 기준</span>
                     </div>
-                  ))}
-                </div>
-                <div className="result-title">
-                  <h3>원형이정, 네 가지 이름의 흐름</h3>
-                  <span>81수리 기준</span>
-                </div>
-                <div className="grid-results">
-                  {result.grids.map((grid): ReactNode => (
-                    <article key={grid.label}>
-                      <div>
-                        <span>
-                          {grid.label} <small>{grid.period}</small>
-                        </span>
-                        <b
-                          className={`fortune ${grid.fortune === "吉" ? "good" : ""}`}
-                        >
-                          {grid.fortune === "吉"
-                            ? "길"
-                            : grid.fortune === "凶"
-                              ? "흉"
-                              : "반길반흉"}
-                        </b>
-                      </div>
-                      <h4>
-                        {grid.total}
-                        <small>획 · {grid.title}</small>
-                      </h4>
-                      <p>{grid.description}</p>
-                      {grid.total !== grid.number && (
-                        <small>81수리 환산: {grid.number}</small>
-                      )}
-                    </article>
-                  ))}
-                </div>
+                    <div className="grid-results">
+                      {result.grids.map((grid): ReactNode => (
+                        <article key={grid.label}>
+                          <div>
+                            <span>
+                              {grid.label} <small>{grid.period}</small>
+                            </span>
+                            <b
+                              className={`fortune ${grid.fortune === "吉" ? "good" : ""}`}
+                            >
+                              {grid.fortune === "吉"
+                                ? "길"
+                                : grid.fortune === "凶"
+                                  ? "흉"
+                                  : "반길반흉"}
+                            </b>
+                          </div>
+                          <h4>
+                            {grid.total}
+                            <small>획 · {grid.title}</small>
+                          </h4>
+
+                          {grid.total !== grid.number && (
+                            <small>81수리 환산: {grid.number}</small>
+                          )}
+                        </article>
+                      ))}
+                    </div>
+                  </>
+                )}
                 <div className="sound-result">
                   <h3>소리로 살펴보는 발음오행</h3>
                   <div>
@@ -590,7 +955,7 @@ export function ReadingApp(): ReactNode {
                         <span>
                           {sound.syllable} <b>{sound.element ?? "미분류"}</b>
                         </span>
-                        {index < 2 && (
+                        {index < result.sounds.length - 1 && (
                           <small>→ {result.relations[index]}</small>
                         )}
                       </div>
@@ -626,6 +991,16 @@ export function ReadingApp(): ReactNode {
                           </span>
                         ))}
                       </div>
+                      {sazu.elements.length === 0 && (
+                        <p className="field-help">
+                          오행 분포는 제공되지 않았어요.
+                        </p>
+                      )}
+                      {sazu.strength && (
+                        <p className="field-help">
+                          신강약: {sazu.strength.strength}
+                        </p>
+                      )}
                       <p className="field-help">
                         오행 개수만으로 용신이나 이름의 좋고 나쁨을 단정하지
                         않습니다.
@@ -640,7 +1015,7 @@ export function ReadingApp(): ReactNode {
                       <button
                         className="secondary-button"
                         type="button"
-                        disabled={sazuLoading}
+                        disabled={sazuLoading || loading}
                         onClick={(): void => {
                           void analyzeSazu();
                         }}
@@ -658,6 +1033,54 @@ export function ReadingApp(): ReactNode {
                     </p>
                   )}
                 </div>
+                <section
+                  className="detail-offer"
+                  aria-labelledby="detail-title"
+                >
+                  <span className="section-index">
+                    YOUR STORY, A LITTLE DEEPER
+                  </span>
+                  <h3 id="detail-title">
+                    이름과 사주를 함께 읽으면,
+                    <br />
+                    어떤 이야기가 펼쳐질까요?
+                  </h3>
+                  <p>
+                    지금 확인한 이름과 태어난 순간을 바탕으로, 나에게 맞는 상세
+                    풀이를 만나보세요.
+                  </p>
+                  <ul>
+                    <li>이름 형식에 맞는 풀이와 해설</li>
+                    <li>사주 원국과 이름을 함께 살펴보는 분석</li>
+                    <li>내 풀이함에서 언제든 다시 보는 결과</li>
+                  </ul>
+                  <button
+                    className="primary-button"
+                    type="button"
+                    disabled={
+                      sazuLoading ||
+                      loading ||
+                      !supportsStoredName({ name, nameMode, surnameLength })
+                    }
+                    onClick={continueToDetail}
+                  >
+                    더 자세한 내용 보기 <span aria-hidden>→</span>
+                  </button>
+                  <p className="field-help">
+                    {!supportsStoredName({ name, nameMode, surnameLength })
+                      ? "이 이름 형식의 계정 보관과 상세 풀이는 준비 중이에요. 지금은 무료 미리보기를 이용해 주세요."
+                      : signedIn
+                        ? "입력 정보를 확인하고 내 계정에 보관할 수 있어요."
+                        : "로그인 후 입력 정보를 확인하고 보관할 수 있어요."}
+                    <br />
+                    현재 상세 풀이 결제는 준비 중이며, 요금은 청구되지 않습니다.
+                  </p>
+                  {error && (
+                    <p className="error-message" role="alert">
+                      {error}
+                    </p>
+                  )}
+                </section>
                 <p className="result-footnote">
                   전통 성명학 자료를 바탕으로 한 참고용 풀이입니다.
                   자원오행·불용문자 판정과 AI 종합 해설은 데이터 검수 후 제공할
@@ -736,7 +1159,12 @@ export function ReadingApp(): ReactNode {
           <h2 id="hanja-title">
             ‘{active === null ? "" : name[active]}’에 담긴 뜻을 골라주세요.
           </h2>
-          <p className="card-description">예시 한자 목록 · 원획수 기준</p>
+          <p className="card-description">
+            {catalogStatus === "preview"
+              ? "예시 한자 목록"
+              : "인명용 한자 목록"}{" "}
+            · 원획수 기준
+          </p>
           <input
             aria-label="한자 또는 뜻 검색"
             placeholder="한자 또는 뜻으로 검색"
@@ -751,8 +1179,8 @@ export function ReadingApp(): ReactNode {
                 type="button"
                 onClick={(): void => {
                   if (active !== null)
-                    setIds((previous: string[]): string[] =>
-                      previous.map((id: string, index: number): string =>
+                    setIds((previous) =>
+                      previous.map((id, index) =>
                         index === active ? item.id : id,
                       ),
                     );
@@ -762,13 +1190,25 @@ export function ReadingApp(): ReactNode {
                 <strong>{item.character}</strong>
                 <span>
                   {item.meaning} {item.reading}
-                  <small>원획 {item.strokes}획</small>
+                  <small>
+                    {item.strokeReview === "unreviewed" ? "예시 원획" : "원획"}{" "}
+                    {item.strokes}획
+                    {item.dictionaryStrokes !== null
+                      ? ` · 사전 ${item.dictionaryStrokes}획`
+                      : " · 미검수"}
+                  </small>
                 </span>
                 <span aria-hidden>＋</span>
               </button>
             ))}
           </div>
-          {candidates.length === 0 && (
+          {hanjaLoading && <p role="status">한자 목록을 불러오는 중이에요…</p>}
+          {hanjaError && (
+            <p className="error-message" role="alert">
+              {hanjaError}
+            </p>
+          )}
+          {!hanjaLoading && !hanjaError && candidates.length === 0 && (
             <p className="empty-state">
               해당 한자가 아직 목록에 없어요.
               <br />

@@ -60,6 +60,8 @@ const entries: [string, string, string, number][] = [
   ["예", "叡", "밝을", 16],
   ["원", "元", "으뜸", 4],
   ["원", "源", "근원", 14],
+  // 2026-10-30 대조: 일반 사전 총획 10 / 미소 한국작명원 원획 기준 9.
+  // 기존 수기값의 원래 출처는 미기록. 아래 링크는 이번 대조 자료이며 전체 DB 검수 완료를 뜻하지 않습니다.
   ["태", "泰", "클", 9],
   ["희", "熙", "빛날", 13],
   ["호", "浩", "넓을", 11],
@@ -81,5 +83,22 @@ export const hanjaList: Hanja[] = entries.map(
     strokes,
     element: null,
     isBulyong: null,
+    dictionaryStrokes: character === "泰" ? 10 : null,
+    strokeReview: character === "泰" ? "reference-checked" : "unreviewed",
+    strokeSources:
+      character === "泰"
+        ? [
+            {
+              title: "교육부 사전 · 총획 10",
+              url: "https://dict.revised.moe.edu.tw/dictView.jsp?ID=2491&la=1&powerMode=0",
+              basis: "dictionary",
+            },
+            {
+              title: "미소 한국작명원 · 원획 기준 9",
+              url: "https://www.miso.co.kr/Resource/Hanja/pick-PAx4SWrQudQQ6RvTb3hWm9j2E2V5GO46v0-MS9PEjtI%21",
+              basis: "naming-original",
+            },
+          ]
+        : [],
   }),
 );
