@@ -12,14 +12,14 @@ import {
   clearDraft,
   readDraft,
   writeDraft,
-  sameDraftInput,
+  createDraft,
 } from "@/lib/reading-draft";
 import {
   selectionMode,
   resizeNameSelection,
   type HanjaSelection,
 } from "@/lib/name-input";
-import { apiMessage } from "@/lib/client-api";
+import { apiMessage, clientApi, ApiFailure } from "@/lib/client-api";
 import { StrokeReference } from "./stroke-reference";
 import type { Hanja, NameResult, SazuResult } from "@/lib/types";
 import {
@@ -145,12 +145,11 @@ export function ReadingApp({
     const timer = setTimeout(() => {
       void Promise.all(
         readings.map(async (reading) => {
-          const response = await fetch(
+          const response = await clientApi(
             `/api/hanja?${new URLSearchParams({ reading })}`,
             { signal: controller.signal },
           );
-          if (!response.ok) throw new Error("Hanja unavailable");
-          return hanjaResponseSchema.parse(await response.json());
+          return hanjaResponseSchema.parse(response);
         }),
       )
         .then((responses) => {
@@ -164,9 +163,13 @@ export function ReadingApp({
               : "preview",
           );
         })
-        .catch(() => {
+        .catch((cause) => {
           if (!controller.signal.aborted)
-            setHanjaError("한자 목록을 불러오지 못했어요. 다시 시도해 주세요.");
+            setHanjaError(
+              cause instanceof ApiFailure
+                ? cause.message
+                : "한자 목록을 불러오지 못했어요. 다시 시도해 주세요.",
+            );
         })
         .finally(() => {
           if (!controller.signal.aborted) setHanjaLoading(false);
@@ -178,49 +181,28 @@ export function ReadingApp({
     };
   }, [lookupReadingsKey, lookupRetry]);
 
-  function saveInput(): boolean {
+  function saveInput(draftStep: 1 | 2 = result || step === 2 ? 2 : 1): boolean {
     const input = {
       name,
       nameMode,
-      surnameLength,
+      surnameLength: surnameLength === 2 ? (2 as const) : (1 as const),
       ids,
       birthDate,
       birthTime,
       unknownTime,
       gender,
       birthCity,
+      step: draftStep,
     };
-    const previous = readDraft();
-    return writeDraft({
-      version: 1,
-      id:
-        previous && sameDraftInput(previous, input)
-          ? previous.id
-          : crypto.randomUUID(),
-      savedAt: Date.now(),
-      name,
-      nameMode,
-      surnameLength: surnameLength === 2 ? 2 : 1,
-      ids,
-      birthDate,
-      birthTime,
-      unknownTime,
-      gender,
-      birthCity,
-      step: result ? 2 : step === 2 ? 2 : 1,
-      ...(sazu?.previewId &&
-      sazu.expiresAt &&
-      sazu.providerVersion &&
-      Date.parse(sazu.expiresAt) > Date.now()
+    const preview =
+      sazu?.previewId && sazu.expiresAt && sazu.providerVersion
         ? {
-            preview: {
-              id: sazu.previewId,
-              expiresAt: sazu.expiresAt,
-              providerVersion: sazu.providerVersion,
-            },
+            id: sazu.previewId,
+            expiresAt: sazu.expiresAt,
+            providerVersion: sazu.providerVersion,
           }
-        : {}),
-    });
+        : undefined;
+    return writeDraft(createDraft(input, readDraft(), preview));
   }
 
   function continueToDetail(): void {
@@ -316,21 +298,7 @@ export function ReadingApp({
         );
       if (requestedInput !== liveInput.current) return;
       const validated = nameResponseSchema.parse(body);
-      writeDraft({
-        version: 1,
-        id: crypto.randomUUID(),
-        savedAt: Date.now(),
-        name,
-        nameMode,
-        surnameLength: surnameLength === 2 ? 2 : 1,
-        ids,
-        birthDate,
-        birthTime,
-        unknownTime,
-        gender,
-        birthCity,
-        step: 2,
-      });
+      saveInput(2);
       setResult(validated.data);
       setResultCatalog(validated.catalog.status);
       if (hasBirth) await analyzeSazu();
@@ -801,8 +769,8 @@ export function ReadingApp({
                           사주 조회를 위해 생년월일시·성별·출생 도시를 SAZU에
                           제공하는 데 동의해요.{" "}
                           <small>
-                            결과 화면에서 ‘사주 불러오기’를 누르면 전송돼요.
-                            이름은 전송하지 않아요.
+                            ‘무료 미리보기 확인하기’를 누르면 이름 분석에 이어
+                            전송돼요. 이름은 전송하지 않아요.
                           </small>
                         </span>
                       </label>

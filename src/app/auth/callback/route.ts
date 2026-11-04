@@ -4,6 +4,7 @@ import { createAuthClient } from "@/lib/auth/server";
 import {
   AUTH_RETURN_COOKIE,
   safeReturnPath,
+  loginErrorPath,
   siteOrigin,
 } from "@/lib/auth/policy";
 
@@ -13,10 +14,12 @@ export async function GET(request: Request): Promise<Response> {
     return new Response("로그인 주소 설정이 필요합니다.", { status: 503 });
   const store = await cookies();
   const next = safeReturnPath(store.get(AUTH_RETURN_COOKIE)?.value);
-  let destination = `/login?error=callback&next=${encodeURIComponent(next)}`;
+  let destination = loginErrorPath("callback", next);
   try {
     const url = new URL(request.url);
     const code = url.searchParams.get("code");
+    if (url.searchParams.get("error") === "access_denied")
+      destination = loginErrorPath("cancelled", next);
     if (code && !url.searchParams.has("error")) {
       const client = await createAuthClient(true);
       if (client) {

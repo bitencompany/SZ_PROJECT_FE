@@ -1,0 +1,171 @@
+// 로그인 전 HTTP 경계만 검증합니다. 실계정 로그인·저장 E2E를 대신하지 않습니다.
+// 응답 원문, 인증 URL, 쿠키와 비밀값은 출력하지 않습니다.
+import { loadEnvFile } from "node:process";
+
+try {
+  loadEnvFile(".env.local");
+} catch (error) {
+  if (error.code !== "ENOENT") throw error;
+}
+
+const origin = process.env.APP_URL ?? "http://127.0.0.1:3000";
+function check(condition, label) {
+  if (!condition) throw new Error(label);
+}
+async function request(path, init = {}) {
+  return fetch(new URL(path, origin), {
+    ...init,
+    redirect: "manual",
+    signal: AbortSignal.timeout(30000),
+  });
+}
+async function run(label, action) {
+  try {
+    await action();
+    console.log(`PASS ${label}`);
+  } catch {
+    console.error(`FAIL ${label}`);
+    process.exitCode = 1;
+  }
+}
+check(
+  new URL(origin).hostname === "127.0.0.1",
+  "APP_URL must use local 127.0.0.1",
+);
+
+await run("로그인 화면과 결제 준비 중 안내", async () => {
+  const response = await request("/login");
+  check(response.status === 200, "login status");
+  const html = await response.text();
+  check(html.includes("카카오로 시작하기"), "login button");
+  check(html.includes("상세 풀이 구매 기능은 준비 중"), "payment disabled");
+});
+
+const id = "11111111-1111-4111-8111-111111111111";
+await run("비회원 보호 화면 및 회원 API 차단", async () => {
+  for (const path of [
+    "/checkout",
+    "/my/readings",
+    `/my/readings/${id}`,
+    `/my/orders/${id}`,
+  ]) {
+    const response = await request(path);
+    const location = response.headers.get("location");
+    check(response.status === 307 && location, "protected redirect");
+    const destination = new URL(location, origin);
+    check(destination.pathname === "/login", "login path");
+    check(destination.searchParams.get("next") === path, "return path");
+  }
+  for (const path of [
+    "/api/readings",
+    `/api/reading-requests/${id}`,
+    `/api/orders/${id}`,
+  ]) {
+    const response = await request(path);
+    check(response.status === 401, "member status");
+    check(
+      response.headers.get("cache-control")?.includes("no-store"),
+      "no cache",
+    );
+  }
+});
+
+await run("타 출처 로그인·로그아웃·입력 저장 차단", async () => {
+  for (const path of ["/auth/kakao", "/auth/logout", "/api/reading-requests"]) {
+    const response = await request(path, {
+      method: "POST",
+      headers: { Origin: "https://invalid.example" },
+    });
+    check(response.status === 403, "origin rejected");
+  }
+});
+
+await run("OAuth 시작·PKCE·HttpOnly 및 취소 후 복귀", async () => {
+  const next = `/checkout?request=${id}`;
+  const response = await request("/auth/kakao", {
+    method: "POST",
+    headers: {
+      Origin: origin,
+      "Content-Type": "application/x-www-form-urlencoded",
+    },
+    body: new URLSearchParams({ next }),
+  });
+  check(response.status === 303, "start redirect");
+  const location = new URL(response.headers.get("location"));
+  check(
+    location.origin === new URL(process.env.SUPABASE_URL).origin,
+    "project",
+  );
+  check(location.searchParams.get("provider") === "kakao", "provider");
+  check(
+    location.searchParams.get("redirect_to") === `${origin}/auth/callback`,
+    "callback",
+  );
+  check(
+    location.searchParams.get("code_challenge_method")?.toLowerCase() ===
+      "s256",
+    "pkce",
+  );
+  const scope = location.searchParams.get("scopes") ?? "";
+  check(
+    scope.includes("profile_nickname") &&
+      scope.includes("profile_image") &&
+      !scope.includes("email"),
+    "optional scopes",
+  );
+  const cookies = response.headers.getSetCookie();
+  check(
+    cookies.some((value) => value.includes("code-verifier=")),
+    "verifier cookie",
+  );
+  check(
+    cookies.every(
+      (value) => /httponly/i.test(value) && /samesite=lax/i.test(value),
+    ),
+    "cookie policy",
+  );
+  const callback = await request("/auth/callback?error=access_denied", {
+    headers: { Cookie: cookies.map((value) => value.split(";")[0]).join("; ") },
+  });
+  check(callback.status === 303, "cancel redirect");
+  const destination = new URL(callback.headers.get("location"));
+  check(
+    destination.searchParams.get("error") === "cancelled",
+    "cancel message",
+  );
+  check(destination.searchParams.get("next") === next, "cancel return path");
+  check(callback.headers.get("referrer-policy") === "no-referrer", "referrer");
+});
+
+await run("코드 없는 콜백은 로그인 실패 안내로 복귀", async () => {
+  const response = await request("/auth/callback");
+  check(response.status === 303, "callback redirect");
+  const destination = new URL(response.headers.get("location"));
+  check(
+    destination.pathname === "/login" &&
+      destination.searchParams.get("error") === "callback",
+    "callback error",
+  );
+});
+
+await run("로컬 BE 공유 비밀 연결·카탈로그 비활성 상태", async () => {
+  const backend = new URL(process.env.BACKEND_API_URL);
+  check(backend.hostname === "127.0.0.1", "local backend only");
+  const url = new URL("/api/hanja?reading=김", backend);
+  const blocked = await fetch(url, {
+    signal: AbortSignal.timeout(30000),
+    redirect: "error",
+  });
+  check(blocked.status === 403, "BFF required");
+  const authorized = await fetch(url, {
+    headers: { "X-BFF-Secret": process.env.BFF_SHARED_SECRET },
+    signal: AbortSignal.timeout(30000),
+    redirect: "error",
+  });
+  const body = await authorized.json();
+  check(
+    authorized.status === 503 && body.error?.code === "CATALOG_NOT_READY",
+    "catalog not ready",
+  );
+  check(process.env.BACKEND_NAME_ENABLED === "false", "name feature disabled");
+});

@@ -2,6 +2,8 @@
 
 코드는 Supabase Auth를 통해 카카오 OAuth를 시작합니다. 브라우저에 인증 SDK·비밀 키를 두지 않고 FE 서버에서 PKCE 및 HttpOnly 쿠키를 처리합니다.
 
+2026-11-04 기준 로컬 설정과 원격 DB 적용은 완료되어 있습니다. 아래는 새 환경을 구성할 때의 절차이며, 기존 키를 다시 발급하거나 덮어쓸 필요가 없습니다. 현재 상태와 남은 실계정 검증은 [설정 결과](./BACKEND_SUPABASE_STATUS_20261104.md)를 참고하세요.
+
 1. Supabase 프로젝트를 생성하고 Project URL과 publishable key를 `.env.local`의 `SUPABASE_URL`, `SUPABASE_PUBLISHABLE_KEY`에 입력합니다. service_role 키는 FE에 넣지 않습니다.
 2. `APP_URL`을 실제 접속 주소와 일치시킵니다. 기본값은 `http://127.0.0.1:3000`이며 localhost와 127.0.0.1, 포트 차이를 혼용하지 않습니다. 운영은 HTTPS입니다.
 3. Supabase Authentication의 URL Configuration에서 Site URL을 APP_URL로 설정하고 Redirect URL에 `APP_URL/auth/callback`을 정확히 등록합니다. 운영 도메인도 별도로 등록합니다.

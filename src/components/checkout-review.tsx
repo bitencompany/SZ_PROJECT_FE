@@ -5,7 +5,7 @@ import { clearDraft, readDraft, type ReadingDraft } from "@/lib/reading-draft";
 import { birthSchema, supportsStoredName } from "@/lib/validation";
 import { nameResponseSchema } from "@/lib/name-contract";
 import type { NameResult } from "@/lib/types";
-import { apiMessage } from "@/lib/client-api";
+import { apiMessage, clientApi, ApiFailure } from "@/lib/client-api";
 import { saveResponseSchema } from "@/lib/member-contract";
 import { DeleteRequest } from "./delete-request";
 import { StrokeReference } from "./stroke-reference";
@@ -31,7 +31,7 @@ export function CheckoutReview({
   useEffect(() => {
     if (!draft) return;
     const controller = new AbortController();
-    void fetch("/api/name", {
+    void clientApi("/api/name", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({
@@ -42,17 +42,14 @@ export function CheckoutReview({
       }),
       signal: controller.signal,
     })
-      .then(async (response) => {
-        if (!response.ok) throw new Error();
-        return nameResponseSchema.parse(await response.json());
-      })
+      .then((response) => nameResponseSchema.parse(response))
       .then((response) => {
         if (!controller.signal.aborted) setNameResult(response.data);
       })
-      .catch(() => {
+      .catch((cause) => {
         if (!controller.signal.aborted)
           setNameNotice(
-            "한자 자료를 아직 확인하지 못했어요. 입력 내용은 보관할 수 있으며, 실제 분석 전에 검증합니다.",
+            `${cause instanceof ApiFailure ? cause.message : "한자 자료를 아직 확인하지 못했어요."} 입력 내용은 보관할 수 있으며, 실제 분석 전에 검증합니다.`,
           );
       });
     return () => controller.abort();

@@ -11,6 +11,13 @@ export function safeReturnPath(value: unknown): string {
     : "/";
 }
 
+export function loginErrorPath(
+  error: "start" | "callback" | "cancelled",
+  next: unknown,
+): string {
+  return `/login?${new URLSearchParams({ error, next: safeReturnPath(next) })}`;
+}
+
 export function siteOrigin(): string | null {
   try {
     const url = new URL(process.env.APP_URL ?? "http://127.0.0.1:3000");

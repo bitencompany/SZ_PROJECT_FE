@@ -1,12 +1,13 @@
 # 이름결 — 사주·성명학 웹 서비스
 
-Next.js App Router / TypeScript / Tailwind 기반입니다. 사용자 흐름은 **비회원 이름·한자·출생 정보 입력 → 무료 미리보기 → 더 자세한 내용 보기 → 카카오 로그인 → 결제 → 상세 분석·내 풀이함**입니다.
+Next.js App Router / TypeScript / Tailwind 기반입니다. 현재 사용자 흐름은 **비회원 이름·한자·출생 정보 입력 → 무료 미리보기 → 더 자세한 내용 보기 → 카카오 로그인 → 입력 확인·보관**입니다. 결제는 비활성이며, 상세 분석·내 풀이함 조회 UI는 후속 연동에 맞춰 준비되어 있습니다.
 
 ## 실행
 
 ```sh
 npm install
-cp .env.example .env.local
+# .env.local이 없는 새 환경에서만 실행합니다.
+test -f .env.local || cp .env.example .env.local
 npm run dev
 ```
 
@@ -24,6 +25,7 @@ npm run dev
 
 ## 연결 설정
 
+- 최신 로컬 설정·원격 DB 적용·남은 실계정 검증: [BACKEND_SUPABASE_STATUS_20261104.md](./BACKEND_SUPABASE_STATUS_20261104.md).
 - 신규 로그인 설정: [AUTH_SETUP.md](./AUTH_SETUP.md).
 - 수신한 최신 BE 계약: [BACKEND_API_20261030.md](./BACKEND_API_20261030.md).
 - BE 운영·전체 DB 마이그레이션: [BACKEND_OPERATIONS_SETUP_20261030.md](./BACKEND_OPERATIONS_SETUP_20261030.md).
@@ -42,7 +44,7 @@ npm run dev
 - `src/data/hanja.ts`는 **미검수 예시 목록**이며 전체 인명용 한자 DB가 아닙니다. 서비스 출시용으로 사용하지 않습니다.
 - 원획과 사전 총획을 구분합니다. 泰는 국내 작명 자료의 원획 기준 9와 사전 총획 10을 표시하며 대조 출처를 제공합니다. 기존 예시값의 최초 출처는 미기록이며, 이 한 글자의 대조가 전체 카탈로그 검수 완료를 뜻하지 않습니다.
 - `src/data/suri_81.json`은 제공된 `81.md`를 옮긴 자료입니다. 81 초과 시 80을 반복 차감합니다. 된소리·자원오행·불용문자 중 근거 없는 값은 미분류/null로 유지합니다. 오행 개수만으로 용신을 판단하지 않습니다.
-- 실제 Supabase/Kakao/SAZU/PG/LLM 연결 검증은 각 계정·키·BE 준비 후 진행해야 합니다. 현재 외부 서비스 성공을 가정한 결제나 가짜 상세 결과를 만들지 않습니다.
+- Supabase·Kakao 로컬 설정과 원격 DB 적용은 완료했습니다. 실제 계정 로그인·입력 저장 E2E와 SAZU/PG/LLM 실호출 검증은 남아 있습니다. 외부 서비스 성공을 가정한 결제나 가짜 상세 결과를 만들지 않습니다.
 
 ## 검증
 
@@ -53,3 +55,5 @@ npm run build
 ```
 
 테스트는 계산 경계·입력 검증·BE 계약·OAuth 복귀 경로·임시 입력 만료·PostgreSQL RLS를 확인합니다. PGlite 테스트는 Supabase 역할을 로컬에서 재현하며 원격 DB 적용 또는 실제 OAuth·결제 검증을 대신하지 않습니다.
+
+FE(3000)와 BE(3017)를 실행한 뒤 `npm run test:local`로 비회원 보호 화면, OAuth 시작·취소, BFF 공유 비밀 및 카탈로그 준비 중 응답을 검사할 수 있습니다. 현재 비활성 설정을 전제로 하며 실계정 로그인·저장·결제를 실행하지 않습니다.

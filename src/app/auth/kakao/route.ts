@@ -5,6 +5,7 @@ import { authConfig, authCookieOptions } from "@/lib/auth/config";
 import {
   AUTH_RETURN_COOKIE,
   isSameOriginPost,
+  loginErrorPath,
   safeReturnPath,
 } from "@/lib/auth/policy";
 
@@ -20,10 +21,11 @@ export async function POST(request: Request): Promise<Response> {
       { error: "로그인 페이지에서 다시 시작해 주세요." },
       { status: 403 },
     );
+  let next = "/";
   try {
     const raw = await request.text();
     if (raw.length > 1024) return new Response(null, { status: 413 });
-    const next = safeReturnPath(new URLSearchParams(raw).get("next"));
+    next = safeReturnPath(new URLSearchParams(raw).get("next"));
     const client = await createAuthClient(true);
     const { data, error } = await client!.auth.signInWithOAuth({
       provider: "kakao",
@@ -42,6 +44,11 @@ export async function POST(request: Request): Promise<Response> {
     response.headers.set("Cache-Control", "private, no-store");
     return response;
   } catch {
-    return NextResponse.redirect(`${config.origin}/login?error=start`, 303);
+    const response = NextResponse.redirect(
+      new URL(loginErrorPath("start", next), config.origin),
+      303,
+    );
+    response.headers.set("Cache-Control", "private, no-store");
+    return response;
   }
 }

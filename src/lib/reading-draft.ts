@@ -45,7 +45,7 @@ export function parseDraft(
     const parsed = draftSchema.safeParse(JSON.parse(raw));
     if (
       !parsed.success ||
-      now - parsed.data.savedAt > DRAFT_TTL ||
+      now - parsed.data.savedAt >= DRAFT_TTL ||
       parsed.data.savedAt > now
     )
       return null;
@@ -119,4 +119,27 @@ export function sameDraftInput(
     a.gender === b.gender &&
     a.birthCity === b.birthCity
   );
+}
+
+export function createDraft(
+  input: Omit<ReadingDraft, "version" | "id" | "savedAt" | "preview">,
+  previous: ReadingDraft | null,
+  preview?: ReadingDraft["preview"],
+  now = Date.now(),
+): ReadingDraft {
+  const unchanged =
+    previous !== null &&
+    previous.savedAt <= now &&
+    now - previous.savedAt < DRAFT_TTL &&
+    sameDraftInput(previous, input);
+  const candidate = preview ?? (unchanged ? previous.preview : undefined);
+  return {
+    ...input,
+    version: 1,
+    id: unchanged ? previous.id : crypto.randomUUID(),
+    savedAt: now,
+    ...(candidate && Date.parse(candidate.expiresAt) > now
+      ? { preview: candidate }
+      : {}),
+  };
 }
