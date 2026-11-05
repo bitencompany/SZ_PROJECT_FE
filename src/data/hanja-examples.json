@@ -1,0 +1,1677 @@
+[
+  {
+    "id": "김-金",
+    "reading": "김",
+    "character": "金",
+    "meaning": "사람의 성",
+    "meanings": [
+      "사람의 성",
+      "쇠"
+    ],
+    "meaningStatus": "sourced",
+    "meaningSource": "https://raw.githubusercontent.com/libhangul/libhangul/23d2cd9d10d516d523d60c562dbcc7ea08139a09/data/hanja/hanja.txt",
+    "readingSource": "https://raw.githubusercontent.com/rutopio/Korean-Name-Hanja-Charset/12df1ba1b4dfaa095813e4ddfba424e816f94c53/data-gov.csv",
+    "strokeBasis": "written",
+    "searchAliases": [
+      "성 김"
+    ],
+    "strokes": 8,
+    "element": null,
+    "isBulyong": null,
+    "dictionaryStrokes": 8,
+    "strokeReview": "unreviewed",
+    "strokeSources": [
+      {
+        "title": "Unicode 17.0 실제 총획 · 한국 K 자형 우선",
+        "url": "https://www.unicode.org/Public/17.0.0/ucd/Unihan.zip",
+        "basis": "dictionary"
+      }
+    ]
+  },
+  {
+    "id": "이-李",
+    "reading": "이",
+    "character": "李",
+    "meaning": "오얏",
+    "meanings": [
+      "오얏",
+      "선비 천거리할",
+      "역말",
+      "보따리"
+    ],
+    "meaningStatus": "sourced",
+    "meaningSource": "https://raw.githubusercontent.com/libhangul/libhangul/23d2cd9d10d516d523d60c562dbcc7ea08139a09/data/hanja/hanja.txt",
+    "readingSource": "https://raw.githubusercontent.com/rutopio/Korean-Name-Hanja-Charset/12df1ba1b4dfaa095813e4ddfba424e816f94c53/data-gov.csv",
+    "strokeBasis": "written",
+    "strokes": 7,
+    "element": null,
+    "isBulyong": null,
+    "dictionaryStrokes": 7,
+    "strokeReview": "unreviewed",
+    "strokeSources": [
+      {
+        "title": "Unicode 17.0 실제 총획 · 한국 K 자형 우선",
+        "url": "https://www.unicode.org/Public/17.0.0/ucd/Unihan.zip",
+        "basis": "dictionary"
+      }
+    ]
+  },
+  {
+    "id": "박-朴",
+    "reading": "박",
+    "character": "朴",
+    "meaning": "나무껍질",
+    "meanings": [
+      "나무껍질",
+      "질박할"
+    ],
+    "meaningStatus": "sourced",
+    "meaningSource": "https://raw.githubusercontent.com/libhangul/libhangul/23d2cd9d10d516d523d60c562dbcc7ea08139a09/data/hanja/hanja.txt",
+    "readingSource": "https://raw.githubusercontent.com/rutopio/Korean-Name-Hanja-Charset/12df1ba1b4dfaa095813e4ddfba424e816f94c53/data-gov.csv",
+    "strokeBasis": "written",
+    "strokes": 6,
+    "element": null,
+    "isBulyong": null,
+    "dictionaryStrokes": 6,
+    "strokeReview": "unreviewed",
+    "strokeSources": [
+      {
+        "title": "Unicode 17.0 실제 총획 · 한국 K 자형 우선",
+        "url": "https://www.unicode.org/Public/17.0.0/ucd/Unihan.zip",
+        "basis": "dictionary"
+      }
+    ]
+  },
+  {
+    "id": "최-崔",
+    "reading": "최",
+    "character": "崔",
+    "meaning": "산 우뚝할",
+    "meanings": [
+      "산 우뚝할",
+      "높고 가파를",
+      "성씨"
+    ],
+    "meaningStatus": "sourced",
+    "meaningSource": "https://raw.githubusercontent.com/libhangul/libhangul/23d2cd9d10d516d523d60c562dbcc7ea08139a09/data/hanja/hanja.txt",
+    "readingSource": "https://raw.githubusercontent.com/rutopio/Korean-Name-Hanja-Charset/12df1ba1b4dfaa095813e4ddfba424e816f94c53/data-gov.csv",
+    "strokeBasis": "written",
+    "searchAliases": [
+      "성 최"
+    ],
+    "strokes": 11,
+    "element": null,
+    "isBulyong": null,
+    "dictionaryStrokes": 11,
+    "strokeReview": "unreviewed",
+    "strokeSources": [
+      {
+        "title": "Unicode 17.0 실제 총획 · 한국 K 자형 우선",
+        "url": "https://www.unicode.org/Public/17.0.0/ucd/Unihan.zip",
+        "basis": "dictionary"
+      }
+    ]
+  },
+  {
+    "id": "정-鄭",
+    "reading": "정",
+    "character": "鄭",
+    "meaning": "나라이름",
+    "meanings": [
+      "나라이름",
+      "성씨",
+      "정나라"
+    ],
+    "meaningStatus": "sourced",
+    "meaningSource": "https://raw.githubusercontent.com/libhangul/libhangul/23d2cd9d10d516d523d60c562dbcc7ea08139a09/data/hanja/hanja.txt",
+    "readingSource": "https://raw.githubusercontent.com/rutopio/Korean-Name-Hanja-Charset/12df1ba1b4dfaa095813e4ddfba424e816f94c53/data-gov.csv",
+    "strokeBasis": "written",
+    "searchAliases": [
+      "성 정"
+    ],
+    "strokes": 14,
+    "element": null,
+    "isBulyong": null,
+    "dictionaryStrokes": 14,
+    "strokeReview": "unreviewed",
+    "strokeSources": [
+      {
+        "title": "Unicode 17.0 실제 총획 · 한국 K 자형 우선",
+        "url": "https://www.unicode.org/Public/17.0.0/ucd/Unihan.zip",
+        "basis": "dictionary"
+      }
+    ]
+  },
+  {
+    "id": "정-正",
+    "reading": "정",
+    "character": "正",
+    "meaning": "바를",
+    "meanings": [
+      "바를",
+      "과녁",
+      "남쪽으로 난 창",
+      "어른",
+      "분별할"
+    ],
+    "meaningStatus": "sourced",
+    "meaningSource": "https://raw.githubusercontent.com/libhangul/libhangul/23d2cd9d10d516d523d60c562dbcc7ea08139a09/data/hanja/hanja.txt",
+    "readingSource": "https://raw.githubusercontent.com/rutopio/Korean-Name-Hanja-Charset/12df1ba1b4dfaa095813e4ddfba424e816f94c53/data-gov.csv",
+    "strokeBasis": "written",
+    "strokes": 5,
+    "element": null,
+    "isBulyong": null,
+    "dictionaryStrokes": 5,
+    "strokeReview": "unreviewed",
+    "strokeSources": [
+      {
+        "title": "Unicode 17.0 실제 총획 · 한국 K 자형 우선",
+        "url": "https://www.unicode.org/Public/17.0.0/ucd/Unihan.zip",
+        "basis": "dictionary"
+      }
+    ]
+  },
+  {
+    "id": "강-姜",
+    "reading": "강",
+    "character": "姜",
+    "meaning": "성씨",
+    "meanings": [
+      "성씨",
+      "강할"
+    ],
+    "meaningStatus": "sourced",
+    "meaningSource": "https://raw.githubusercontent.com/libhangul/libhangul/23d2cd9d10d516d523d60c562dbcc7ea08139a09/data/hanja/hanja.txt",
+    "readingSource": "https://raw.githubusercontent.com/rutopio/Korean-Name-Hanja-Charset/12df1ba1b4dfaa095813e4ddfba424e816f94c53/data-gov.csv",
+    "strokeBasis": "written",
+    "searchAliases": [
+      "진주 강씨",
+      "성 강"
+    ],
+    "strokes": 9,
+    "element": null,
+    "isBulyong": null,
+    "dictionaryStrokes": 9,
+    "strokeReview": "unreviewed",
+    "strokeSources": [
+      {
+        "title": "Unicode 17.0 실제 총획 · 한국 K 자형 우선",
+        "url": "https://www.unicode.org/Public/17.0.0/ucd/Unihan.zip",
+        "basis": "dictionary"
+      }
+    ]
+  },
+  {
+    "id": "조-趙",
+    "reading": "조",
+    "character": "趙",
+    "meaning": "조나라",
+    "meanings": [
+      "조나라"
+    ],
+    "meaningStatus": "sourced",
+    "meaningSource": "https://raw.githubusercontent.com/libhangul/libhangul/23d2cd9d10d516d523d60c562dbcc7ea08139a09/data/hanja/hanja.txt",
+    "readingSource": "https://raw.githubusercontent.com/rutopio/Korean-Name-Hanja-Charset/12df1ba1b4dfaa095813e4ddfba424e816f94c53/data-gov.csv",
+    "strokeBasis": "written",
+    "strokes": 14,
+    "element": null,
+    "isBulyong": null,
+    "dictionaryStrokes": 14,
+    "strokeReview": "unreviewed",
+    "strokeSources": [
+      {
+        "title": "Unicode 17.0 실제 총획 · 한국 K 자형 우선",
+        "url": "https://www.unicode.org/Public/17.0.0/ucd/Unihan.zip",
+        "basis": "dictionary"
+      }
+    ]
+  },
+  {
+    "id": "윤-尹",
+    "reading": "윤",
+    "character": "尹",
+    "meaning": "다스릴",
+    "meanings": [
+      "다스릴",
+      "바를",
+      "벼슬이름",
+      "믿을"
+    ],
+    "meaningStatus": "sourced",
+    "meaningSource": "https://raw.githubusercontent.com/libhangul/libhangul/23d2cd9d10d516d523d60c562dbcc7ea08139a09/data/hanja/hanja.txt",
+    "readingSource": "https://raw.githubusercontent.com/rutopio/Korean-Name-Hanja-Charset/12df1ba1b4dfaa095813e4ddfba424e816f94c53/data-gov.csv",
+    "strokeBasis": "written",
+    "strokes": 4,
+    "element": null,
+    "isBulyong": null,
+    "dictionaryStrokes": 4,
+    "strokeReview": "unreviewed",
+    "strokeSources": [
+      {
+        "title": "Unicode 17.0 실제 총획 · 한국 K 자형 우선",
+        "url": "https://www.unicode.org/Public/17.0.0/ucd/Unihan.zip",
+        "basis": "dictionary"
+      }
+    ]
+  },
+  {
+    "id": "장-張",
+    "reading": "장",
+    "character": "張",
+    "meaning": "베풀",
+    "meanings": [
+      "베풀"
+    ],
+    "meaningStatus": "sourced",
+    "meaningSource": "https://raw.githubusercontent.com/libhangul/libhangul/23d2cd9d10d516d523d60c562dbcc7ea08139a09/data/hanja/hanja.txt",
+    "readingSource": "https://raw.githubusercontent.com/rutopio/Korean-Name-Hanja-Charset/12df1ba1b4dfaa095813e4ddfba424e816f94c53/data-gov.csv",
+    "strokeBasis": "written",
+    "strokes": 11,
+    "element": null,
+    "isBulyong": null,
+    "dictionaryStrokes": 11,
+    "strokeReview": "unreviewed",
+    "strokeSources": [
+      {
+        "title": "Unicode 17.0 실제 총획 · 한국 K 자형 우선",
+        "url": "https://www.unicode.org/Public/17.0.0/ucd/Unihan.zip",
+        "basis": "dictionary"
+      }
+    ]
+  },
+  {
+    "id": "임-林",
+    "reading": "임",
+    "character": "林",
+    "meaning": "수풀",
+    "meanings": [
+      "수풀",
+      "더북더북 날"
+    ],
+    "meaningStatus": "sourced",
+    "meaningSource": "https://raw.githubusercontent.com/libhangul/libhangul/23d2cd9d10d516d523d60c562dbcc7ea08139a09/data/hanja/hanja.txt",
+    "readingSource": "https://raw.githubusercontent.com/rutopio/Korean-Name-Hanja-Charset/12df1ba1b4dfaa095813e4ddfba424e816f94c53/data-gov.csv",
+    "strokeBasis": "written",
+    "strokes": 8,
+    "element": null,
+    "isBulyong": null,
+    "dictionaryStrokes": 8,
+    "strokeReview": "unreviewed",
+    "strokeSources": [
+      {
+        "title": "Unicode 17.0 실제 총획 · 한국 K 자형 우선",
+        "url": "https://www.unicode.org/Public/17.0.0/ucd/Unihan.zip",
+        "basis": "dictionary"
+      }
+    ]
+  },
+  {
+    "id": "한-韓",
+    "reading": "한",
+    "character": "韓",
+    "meaning": "나라 이름",
+    "meanings": [
+      "나라 이름",
+      "한나라"
+    ],
+    "meaningStatus": "sourced",
+    "meaningSource": "https://raw.githubusercontent.com/libhangul/libhangul/23d2cd9d10d516d523d60c562dbcc7ea08139a09/data/hanja/hanja.txt",
+    "readingSource": "https://raw.githubusercontent.com/rutopio/Korean-Name-Hanja-Charset/12df1ba1b4dfaa095813e4ddfba424e816f94c53/data-gov.csv",
+    "strokeBasis": "written",
+    "strokes": 17,
+    "element": null,
+    "isBulyong": null,
+    "dictionaryStrokes": 17,
+    "strokeReview": "unreviewed",
+    "strokeSources": [
+      {
+        "title": "Unicode 17.0 실제 총획 · 한국 K 자형 우선",
+        "url": "https://www.unicode.org/Public/17.0.0/ucd/Unihan.zip",
+        "basis": "dictionary"
+      }
+    ]
+  },
+  {
+    "id": "서-徐",
+    "reading": "서",
+    "character": "徐",
+    "meaning": "천천할",
+    "meanings": [
+      "천천할"
+    ],
+    "meaningStatus": "sourced",
+    "meaningSource": "https://raw.githubusercontent.com/libhangul/libhangul/23d2cd9d10d516d523d60c562dbcc7ea08139a09/data/hanja/hanja.txt",
+    "readingSource": "https://raw.githubusercontent.com/rutopio/Korean-Name-Hanja-Charset/12df1ba1b4dfaa095813e4ddfba424e816f94c53/data-gov.csv",
+    "strokeBasis": "written",
+    "strokes": 10,
+    "element": null,
+    "isBulyong": null,
+    "dictionaryStrokes": 10,
+    "strokeReview": "unreviewed",
+    "strokeSources": [
+      {
+        "title": "Unicode 17.0 실제 총획 · 한국 K 자형 우선",
+        "url": "https://www.unicode.org/Public/17.0.0/ucd/Unihan.zip",
+        "basis": "dictionary"
+      }
+    ]
+  },
+  {
+    "id": "서-書",
+    "reading": "서",
+    "character": "書",
+    "meaning": "쓸",
+    "meanings": [
+      "쓸",
+      "글"
+    ],
+    "meaningStatus": "sourced",
+    "meaningSource": "https://raw.githubusercontent.com/libhangul/libhangul/23d2cd9d10d516d523d60c562dbcc7ea08139a09/data/hanja/hanja.txt",
+    "readingSource": "https://raw.githubusercontent.com/rutopio/Korean-Name-Hanja-Charset/12df1ba1b4dfaa095813e4ddfba424e816f94c53/data-gov.csv",
+    "strokeBasis": "written",
+    "strokes": 10,
+    "element": null,
+    "isBulyong": null,
+    "dictionaryStrokes": 10,
+    "strokeReview": "unreviewed",
+    "strokeSources": [
+      {
+        "title": "Unicode 17.0 실제 총획 · 한국 K 자형 우선",
+        "url": "https://www.unicode.org/Public/17.0.0/ucd/Unihan.zip",
+        "basis": "dictionary"
+      }
+    ]
+  },
+  {
+    "id": "서-瑞",
+    "reading": "서",
+    "character": "瑞",
+    "meaning": "상서",
+    "meanings": [
+      "상서"
+    ],
+    "meaningStatus": "sourced",
+    "meaningSource": "https://raw.githubusercontent.com/libhangul/libhangul/23d2cd9d10d516d523d60c562dbcc7ea08139a09/data/hanja/hanja.txt",
+    "readingSource": "https://raw.githubusercontent.com/rutopio/Korean-Name-Hanja-Charset/12df1ba1b4dfaa095813e4ddfba424e816f94c53/data-gov.csv",
+    "strokeBasis": "written",
+    "strokes": 13,
+    "element": null,
+    "isBulyong": null,
+    "dictionaryStrokes": 13,
+    "strokeReview": "unreviewed",
+    "strokeSources": [
+      {
+        "title": "Unicode 17.0 실제 총획 · 한국 K 자형 우선",
+        "url": "https://www.unicode.org/Public/17.0.0/ucd/Unihan.zip",
+        "basis": "dictionary"
+      }
+    ]
+  },
+  {
+    "id": "준-俊",
+    "reading": "준",
+    "character": "俊",
+    "meaning": "준걸",
+    "meanings": [
+      "준걸"
+    ],
+    "meaningStatus": "sourced",
+    "meaningSource": "https://raw.githubusercontent.com/libhangul/libhangul/23d2cd9d10d516d523d60c562dbcc7ea08139a09/data/hanja/hanja.txt",
+    "readingSource": "https://raw.githubusercontent.com/rutopio/Korean-Name-Hanja-Charset/12df1ba1b4dfaa095813e4ddfba424e816f94c53/data-gov.csv",
+    "strokeBasis": "written",
+    "strokes": 9,
+    "element": null,
+    "isBulyong": null,
+    "dictionaryStrokes": 9,
+    "strokeReview": "unreviewed",
+    "strokeSources": [
+      {
+        "title": "Unicode 17.0 실제 총획 · 한국 K 자형 우선",
+        "url": "https://www.unicode.org/Public/17.0.0/ucd/Unihan.zip",
+        "basis": "dictionary"
+      }
+    ]
+  },
+  {
+    "id": "준-峻",
+    "reading": "준",
+    "character": "峻",
+    "meaning": "높을",
+    "meanings": [
+      "높을"
+    ],
+    "meaningStatus": "sourced",
+    "meaningSource": "https://raw.githubusercontent.com/libhangul/libhangul/23d2cd9d10d516d523d60c562dbcc7ea08139a09/data/hanja/hanja.txt",
+    "readingSource": "https://raw.githubusercontent.com/rutopio/Korean-Name-Hanja-Charset/12df1ba1b4dfaa095813e4ddfba424e816f94c53/data-gov.csv",
+    "strokeBasis": "written",
+    "strokes": 10,
+    "element": null,
+    "isBulyong": null,
+    "dictionaryStrokes": 10,
+    "strokeReview": "unreviewed",
+    "strokeSources": [
+      {
+        "title": "Unicode 17.0 실제 총획 · 한국 K 자형 우선",
+        "url": "https://www.unicode.org/Public/17.0.0/ucd/Unihan.zip",
+        "basis": "dictionary"
+      }
+    ]
+  },
+  {
+    "id": "준-準",
+    "reading": "준",
+    "character": "準",
+    "meaning": "수준기",
+    "meanings": [
+      "수준기",
+      "법"
+    ],
+    "meaningStatus": "sourced",
+    "meaningSource": "https://raw.githubusercontent.com/libhangul/libhangul/23d2cd9d10d516d523d60c562dbcc7ea08139a09/data/hanja/hanja.txt",
+    "readingSource": "https://raw.githubusercontent.com/rutopio/Korean-Name-Hanja-Charset/12df1ba1b4dfaa095813e4ddfba424e816f94c53/data-gov.csv",
+    "strokeBasis": "written",
+    "strokes": 13,
+    "element": null,
+    "isBulyong": null,
+    "dictionaryStrokes": 13,
+    "strokeReview": "unreviewed",
+    "strokeSources": [
+      {
+        "title": "Unicode 17.0 실제 총획 · 한국 K 자형 우선",
+        "url": "https://www.unicode.org/Public/17.0.0/ucd/Unihan.zip",
+        "basis": "dictionary"
+      }
+    ]
+  },
+  {
+    "id": "민-敏",
+    "reading": "민",
+    "character": "敏",
+    "meaning": "민첩할",
+    "meanings": [
+      "민첩할"
+    ],
+    "meaningStatus": "sourced",
+    "meaningSource": "https://raw.githubusercontent.com/libhangul/libhangul/23d2cd9d10d516d523d60c562dbcc7ea08139a09/data/hanja/hanja.txt",
+    "readingSource": "https://raw.githubusercontent.com/rutopio/Korean-Name-Hanja-Charset/12df1ba1b4dfaa095813e4ddfba424e816f94c53/data-gov.csv",
+    "strokeBasis": "written",
+    "strokes": 11,
+    "element": null,
+    "isBulyong": null,
+    "dictionaryStrokes": 11,
+    "strokeReview": "unreviewed",
+    "strokeSources": [
+      {
+        "title": "Unicode 17.0 실제 총획 · 한국 K 자형 우선",
+        "url": "https://www.unicode.org/Public/17.0.0/ucd/Unihan.zip",
+        "basis": "dictionary"
+      }
+    ]
+  },
+  {
+    "id": "민-旻",
+    "reading": "민",
+    "character": "旻",
+    "meaning": "하늘",
+    "meanings": [
+      "하늘",
+      "가을하늘"
+    ],
+    "meaningStatus": "sourced",
+    "meaningSource": "https://raw.githubusercontent.com/libhangul/libhangul/23d2cd9d10d516d523d60c562dbcc7ea08139a09/data/hanja/hanja.txt",
+    "readingSource": "https://raw.githubusercontent.com/rutopio/Korean-Name-Hanja-Charset/12df1ba1b4dfaa095813e4ddfba424e816f94c53/data-gov.csv",
+    "strokeBasis": "written",
+    "strokes": 8,
+    "element": null,
+    "isBulyong": null,
+    "dictionaryStrokes": 8,
+    "strokeReview": "unreviewed",
+    "strokeSources": [
+      {
+        "title": "Unicode 17.0 실제 총획 · 한국 K 자형 우선",
+        "url": "https://www.unicode.org/Public/17.0.0/ucd/Unihan.zip",
+        "basis": "dictionary"
+      }
+    ]
+  },
+  {
+    "id": "민-珉",
+    "reading": "민",
+    "character": "珉",
+    "meaning": "아름다운돌",
+    "meanings": [
+      "아름다운돌",
+      "옥돌"
+    ],
+    "meaningStatus": "sourced",
+    "meaningSource": "https://raw.githubusercontent.com/libhangul/libhangul/23d2cd9d10d516d523d60c562dbcc7ea08139a09/data/hanja/hanja.txt",
+    "readingSource": "https://raw.githubusercontent.com/rutopio/Korean-Name-Hanja-Charset/12df1ba1b4dfaa095813e4ddfba424e816f94c53/data-gov.csv",
+    "strokeBasis": "written",
+    "strokes": 9,
+    "element": null,
+    "isBulyong": null,
+    "dictionaryStrokes": 9,
+    "strokeReview": "unreviewed",
+    "strokeSources": [
+      {
+        "title": "Unicode 17.0 실제 총획 · 한국 K 자형 우선",
+        "url": "https://www.unicode.org/Public/17.0.0/ucd/Unihan.zip",
+        "basis": "dictionary"
+      }
+    ]
+  },
+  {
+    "id": "지-智",
+    "reading": "지",
+    "character": "智",
+    "meaning": "슬기",
+    "meanings": [
+      "슬기",
+      "지혜"
+    ],
+    "meaningStatus": "sourced",
+    "meaningSource": "https://raw.githubusercontent.com/libhangul/libhangul/23d2cd9d10d516d523d60c562dbcc7ea08139a09/data/hanja/hanja.txt",
+    "readingSource": "https://raw.githubusercontent.com/rutopio/Korean-Name-Hanja-Charset/12df1ba1b4dfaa095813e4ddfba424e816f94c53/data-gov.csv",
+    "strokeBasis": "written",
+    "strokes": 12,
+    "element": null,
+    "isBulyong": null,
+    "dictionaryStrokes": 12,
+    "strokeReview": "unreviewed",
+    "strokeSources": [
+      {
+        "title": "Unicode 17.0 실제 총획 · 한국 K 자형 우선",
+        "url": "https://www.unicode.org/Public/17.0.0/ucd/Unihan.zip",
+        "basis": "dictionary"
+      }
+    ]
+  },
+  {
+    "id": "지-志",
+    "reading": "지",
+    "character": "志",
+    "meaning": "뜻",
+    "meanings": [
+      "뜻"
+    ],
+    "meaningStatus": "sourced",
+    "meaningSource": "https://raw.githubusercontent.com/libhangul/libhangul/23d2cd9d10d516d523d60c562dbcc7ea08139a09/data/hanja/hanja.txt",
+    "readingSource": "https://raw.githubusercontent.com/rutopio/Korean-Name-Hanja-Charset/12df1ba1b4dfaa095813e4ddfba424e816f94c53/data-gov.csv",
+    "strokeBasis": "written",
+    "strokes": 7,
+    "element": null,
+    "isBulyong": null,
+    "dictionaryStrokes": 7,
+    "strokeReview": "unreviewed",
+    "strokeSources": [
+      {
+        "title": "Unicode 17.0 실제 총획 · 한국 K 자형 우선",
+        "url": "https://www.unicode.org/Public/17.0.0/ucd/Unihan.zip",
+        "basis": "dictionary"
+      }
+    ]
+  },
+  {
+    "id": "지-知",
+    "reading": "지",
+    "character": "知",
+    "meaning": "알",
+    "meanings": [
+      "알"
+    ],
+    "meaningStatus": "sourced",
+    "meaningSource": "https://raw.githubusercontent.com/libhangul/libhangul/23d2cd9d10d516d523d60c562dbcc7ea08139a09/data/hanja/hanja.txt",
+    "readingSource": "https://raw.githubusercontent.com/rutopio/Korean-Name-Hanja-Charset/12df1ba1b4dfaa095813e4ddfba424e816f94c53/data-gov.csv",
+    "strokeBasis": "written",
+    "strokes": 8,
+    "element": null,
+    "isBulyong": null,
+    "dictionaryStrokes": 8,
+    "strokeReview": "unreviewed",
+    "strokeSources": [
+      {
+        "title": "Unicode 17.0 실제 총획 · 한국 K 자형 우선",
+        "url": "https://www.unicode.org/Public/17.0.0/ucd/Unihan.zip",
+        "basis": "dictionary"
+      }
+    ]
+  },
+  {
+    "id": "우-宇",
+    "reading": "우",
+    "character": "宇",
+    "meaning": "집",
+    "meanings": [
+      "집",
+      "처마 기슭",
+      "하늘"
+    ],
+    "meaningStatus": "sourced",
+    "meaningSource": "https://raw.githubusercontent.com/libhangul/libhangul/23d2cd9d10d516d523d60c562dbcc7ea08139a09/data/hanja/hanja.txt",
+    "readingSource": "https://raw.githubusercontent.com/rutopio/Korean-Name-Hanja-Charset/12df1ba1b4dfaa095813e4ddfba424e816f94c53/data-gov.csv",
+    "strokeBasis": "written",
+    "strokes": 6,
+    "element": null,
+    "isBulyong": null,
+    "dictionaryStrokes": 6,
+    "strokeReview": "unreviewed",
+    "strokeSources": [
+      {
+        "title": "Unicode 17.0 실제 총획 · 한국 K 자형 우선",
+        "url": "https://www.unicode.org/Public/17.0.0/ucd/Unihan.zip",
+        "basis": "dictionary"
+      }
+    ]
+  },
+  {
+    "id": "우-祐",
+    "reading": "우",
+    "character": "祐",
+    "meaning": "도울",
+    "meanings": [
+      "도울",
+      "다행할"
+    ],
+    "meaningStatus": "sourced",
+    "meaningSource": "https://raw.githubusercontent.com/libhangul/libhangul/23d2cd9d10d516d523d60c562dbcc7ea08139a09/data/hanja/hanja.txt",
+    "readingSource": "https://raw.githubusercontent.com/rutopio/Korean-Name-Hanja-Charset/12df1ba1b4dfaa095813e4ddfba424e816f94c53/data-gov.csv",
+    "strokeBasis": "written",
+    "strokes": 9,
+    "element": null,
+    "isBulyong": null,
+    "dictionaryStrokes": 9,
+    "strokeReview": "unreviewed",
+    "strokeSources": [
+      {
+        "title": "Unicode 17.0 실제 총획 · 한국 K 자형 우선",
+        "url": "https://www.unicode.org/Public/17.0.0/ucd/Unihan.zip",
+        "basis": "dictionary"
+      }
+    ]
+  },
+  {
+    "id": "우-雨",
+    "reading": "우",
+    "character": "雨",
+    "meaning": "비",
+    "meanings": [
+      "비"
+    ],
+    "meaningStatus": "sourced",
+    "meaningSource": "https://raw.githubusercontent.com/libhangul/libhangul/23d2cd9d10d516d523d60c562dbcc7ea08139a09/data/hanja/hanja.txt",
+    "readingSource": "https://raw.githubusercontent.com/rutopio/Korean-Name-Hanja-Charset/12df1ba1b4dfaa095813e4ddfba424e816f94c53/data-gov.csv",
+    "strokeBasis": "written",
+    "strokes": 8,
+    "element": null,
+    "isBulyong": null,
+    "dictionaryStrokes": 8,
+    "strokeReview": "unreviewed",
+    "strokeSources": [
+      {
+        "title": "Unicode 17.0 실제 총획 · 한국 K 자형 우선",
+        "url": "https://www.unicode.org/Public/17.0.0/ucd/Unihan.zip",
+        "basis": "dictionary"
+      }
+    ]
+  },
+  {
+    "id": "현-賢",
+    "reading": "현",
+    "character": "賢",
+    "meaning": "어질",
+    "meanings": [
+      "어질",
+      "좋을",
+      "구멍"
+    ],
+    "meaningStatus": "sourced",
+    "meaningSource": "https://raw.githubusercontent.com/libhangul/libhangul/23d2cd9d10d516d523d60c562dbcc7ea08139a09/data/hanja/hanja.txt",
+    "readingSource": "https://raw.githubusercontent.com/rutopio/Korean-Name-Hanja-Charset/12df1ba1b4dfaa095813e4ddfba424e816f94c53/data-gov.csv",
+    "strokeBasis": "written",
+    "strokes": 15,
+    "element": null,
+    "isBulyong": null,
+    "dictionaryStrokes": 15,
+    "strokeReview": "unreviewed",
+    "strokeSources": [
+      {
+        "title": "Unicode 17.0 실제 총획 · 한국 K 자형 우선",
+        "url": "https://www.unicode.org/Public/17.0.0/ucd/Unihan.zip",
+        "basis": "dictionary"
+      }
+    ]
+  },
+  {
+    "id": "현-炫",
+    "reading": "현",
+    "character": "炫",
+    "meaning": "밝을",
+    "meanings": [
+      "밝을",
+      "불빛"
+    ],
+    "meaningStatus": "sourced",
+    "meaningSource": "https://raw.githubusercontent.com/libhangul/libhangul/23d2cd9d10d516d523d60c562dbcc7ea08139a09/data/hanja/hanja.txt",
+    "readingSource": "https://raw.githubusercontent.com/rutopio/Korean-Name-Hanja-Charset/12df1ba1b4dfaa095813e4ddfba424e816f94c53/data-gov.csv",
+    "strokeBasis": "written",
+    "strokes": 9,
+    "element": null,
+    "isBulyong": null,
+    "dictionaryStrokes": 9,
+    "strokeReview": "unreviewed",
+    "strokeSources": [
+      {
+        "title": "Unicode 17.0 실제 총획 · 한국 K 자형 우선",
+        "url": "https://www.unicode.org/Public/17.0.0/ucd/Unihan.zip",
+        "basis": "dictionary"
+      }
+    ]
+  },
+  {
+    "id": "현-玄",
+    "reading": "현",
+    "character": "玄",
+    "meaning": "검을",
+    "meanings": [
+      "검을",
+      "검붉을",
+      "하늘",
+      "아득할",
+      "고요할"
+    ],
+    "meaningStatus": "sourced",
+    "meaningSource": "https://raw.githubusercontent.com/libhangul/libhangul/23d2cd9d10d516d523d60c562dbcc7ea08139a09/data/hanja/hanja.txt",
+    "readingSource": "https://raw.githubusercontent.com/rutopio/Korean-Name-Hanja-Charset/12df1ba1b4dfaa095813e4ddfba424e816f94c53/data-gov.csv",
+    "strokeBasis": "written",
+    "strokes": 5,
+    "element": null,
+    "isBulyong": null,
+    "dictionaryStrokes": 5,
+    "strokeReview": "unreviewed",
+    "strokeSources": [
+      {
+        "title": "Unicode 17.0 실제 총획 · 한국 K 자형 우선",
+        "url": "https://www.unicode.org/Public/17.0.0/ucd/Unihan.zip",
+        "basis": "dictionary"
+      }
+    ]
+  },
+  {
+    "id": "수-秀",
+    "reading": "수",
+    "character": "秀",
+    "meaning": "빼어날",
+    "meanings": [
+      "빼어날",
+      "이삭",
+      "벼 패일",
+      "아름다울"
+    ],
+    "meaningStatus": "sourced",
+    "meaningSource": "https://raw.githubusercontent.com/libhangul/libhangul/23d2cd9d10d516d523d60c562dbcc7ea08139a09/data/hanja/hanja.txt",
+    "readingSource": "https://raw.githubusercontent.com/rutopio/Korean-Name-Hanja-Charset/12df1ba1b4dfaa095813e4ddfba424e816f94c53/data-gov.csv",
+    "strokeBasis": "written",
+    "strokes": 7,
+    "element": null,
+    "isBulyong": null,
+    "dictionaryStrokes": 7,
+    "strokeReview": "unreviewed",
+    "strokeSources": [
+      {
+        "title": "Unicode 17.0 실제 총획 · 한국 K 자형 우선",
+        "url": "https://www.unicode.org/Public/17.0.0/ucd/Unihan.zip",
+        "basis": "dictionary"
+      }
+    ]
+  },
+  {
+    "id": "수-洙",
+    "reading": "수",
+    "character": "洙",
+    "meaning": "물가",
+    "meanings": [
+      "물가",
+      "물읾"
+    ],
+    "meaningStatus": "sourced",
+    "meaningSource": "https://raw.githubusercontent.com/libhangul/libhangul/23d2cd9d10d516d523d60c562dbcc7ea08139a09/data/hanja/hanja.txt",
+    "readingSource": "https://raw.githubusercontent.com/rutopio/Korean-Name-Hanja-Charset/12df1ba1b4dfaa095813e4ddfba424e816f94c53/data-gov.csv",
+    "strokeBasis": "written",
+    "strokes": 9,
+    "element": null,
+    "isBulyong": null,
+    "dictionaryStrokes": 9,
+    "strokeReview": "unreviewed",
+    "strokeSources": [
+      {
+        "title": "Unicode 17.0 실제 총획 · 한국 K 자형 우선",
+        "url": "https://www.unicode.org/Public/17.0.0/ucd/Unihan.zip",
+        "basis": "dictionary"
+      }
+    ]
+  },
+  {
+    "id": "수-修",
+    "reading": "수",
+    "character": "修",
+    "meaning": "닦을",
+    "meanings": [
+      "닦을",
+      "옳게할",
+      "정리할",
+      "꾸밀"
+    ],
+    "meaningStatus": "sourced",
+    "meaningSource": "https://raw.githubusercontent.com/libhangul/libhangul/23d2cd9d10d516d523d60c562dbcc7ea08139a09/data/hanja/hanja.txt",
+    "readingSource": "https://raw.githubusercontent.com/rutopio/Korean-Name-Hanja-Charset/12df1ba1b4dfaa095813e4ddfba424e816f94c53/data-gov.csv",
+    "strokeBasis": "written",
+    "strokes": 9,
+    "element": null,
+    "isBulyong": null,
+    "dictionaryStrokes": 9,
+    "strokeReview": "unreviewed",
+    "strokeSources": [
+      {
+        "title": "Unicode 17.0 실제 총획 · 한국 K 자형 우선",
+        "url": "https://www.unicode.org/Public/17.0.0/ucd/Unihan.zip",
+        "basis": "dictionary"
+      }
+    ]
+  },
+  {
+    "id": "연-姸",
+    "reading": "연",
+    "character": "姸",
+    "meaning": "고을",
+    "meanings": [
+      "고을",
+      "사랑스러울",
+      "고울"
+    ],
+    "meaningStatus": "sourced",
+    "meaningSource": "https://raw.githubusercontent.com/libhangul/libhangul/23d2cd9d10d516d523d60c562dbcc7ea08139a09/data/hanja/hanja.txt",
+    "readingSource": "https://raw.githubusercontent.com/rutopio/Korean-Name-Hanja-Charset/12df1ba1b4dfaa095813e4ddfba424e816f94c53/data-gov.csv",
+    "strokeBasis": "written",
+    "strokes": 9,
+    "element": null,
+    "isBulyong": null,
+    "dictionaryStrokes": 9,
+    "strokeReview": "unreviewed",
+    "strokeSources": [
+      {
+        "title": "Unicode 17.0 실제 총획 · 한국 K 자형 우선",
+        "url": "https://www.unicode.org/Public/17.0.0/ucd/Unihan.zip",
+        "basis": "dictionary"
+      }
+    ]
+  },
+  {
+    "id": "연-延",
+    "reading": "연",
+    "character": "延",
+    "meaning": "미칠",
+    "meanings": [
+      "미칠",
+      "닿을"
+    ],
+    "meaningStatus": "sourced",
+    "meaningSource": "https://raw.githubusercontent.com/libhangul/libhangul/23d2cd9d10d516d523d60c562dbcc7ea08139a09/data/hanja/hanja.txt",
+    "readingSource": "https://raw.githubusercontent.com/rutopio/Korean-Name-Hanja-Charset/12df1ba1b4dfaa095813e4ddfba424e816f94c53/data-gov.csv",
+    "strokeBasis": "written",
+    "strokes": 6,
+    "element": null,
+    "isBulyong": null,
+    "dictionaryStrokes": 6,
+    "strokeReview": "unreviewed",
+    "strokeSources": [
+      {
+        "title": "Unicode 17.0 실제 총획 · 한국 K 자형 우선",
+        "url": "https://www.unicode.org/Public/17.0.0/ucd/Unihan.zip",
+        "basis": "dictionary"
+      }
+    ]
+  },
+  {
+    "id": "연-然",
+    "reading": "연",
+    "character": "然",
+    "meaning": "불사를",
+    "meanings": [
+      "불사를",
+      "그러할",
+      "허락할",
+      "그러나",
+      "그럴"
+    ],
+    "meaningStatus": "sourced",
+    "meaningSource": "https://raw.githubusercontent.com/libhangul/libhangul/23d2cd9d10d516d523d60c562dbcc7ea08139a09/data/hanja/hanja.txt",
+    "readingSource": "https://raw.githubusercontent.com/rutopio/Korean-Name-Hanja-Charset/12df1ba1b4dfaa095813e4ddfba424e816f94c53/data-gov.csv",
+    "strokeBasis": "written",
+    "strokes": 12,
+    "element": null,
+    "isBulyong": null,
+    "dictionaryStrokes": 12,
+    "strokeReview": "unreviewed",
+    "strokeSources": [
+      {
+        "title": "Unicode 17.0 실제 총획 · 한국 K 자형 우선",
+        "url": "https://www.unicode.org/Public/17.0.0/ucd/Unihan.zip",
+        "basis": "dictionary"
+      }
+    ]
+  },
+  {
+    "id": "하-河",
+    "reading": "하",
+    "character": "河",
+    "meaning": "물",
+    "meanings": [
+      "물"
+    ],
+    "meaningStatus": "sourced",
+    "meaningSource": "https://raw.githubusercontent.com/libhangul/libhangul/23d2cd9d10d516d523d60c562dbcc7ea08139a09/data/hanja/hanja.txt",
+    "readingSource": "https://raw.githubusercontent.com/rutopio/Korean-Name-Hanja-Charset/12df1ba1b4dfaa095813e4ddfba424e816f94c53/data-gov.csv",
+    "strokeBasis": "written",
+    "strokes": 8,
+    "element": null,
+    "isBulyong": null,
+    "dictionaryStrokes": 8,
+    "strokeReview": "unreviewed",
+    "strokeSources": [
+      {
+        "title": "Unicode 17.0 실제 총획 · 한국 K 자형 우선",
+        "url": "https://www.unicode.org/Public/17.0.0/ucd/Unihan.zip",
+        "basis": "dictionary"
+      }
+    ]
+  },
+  {
+    "id": "하-夏",
+    "reading": "하",
+    "character": "夏",
+    "meaning": "여름",
+    "meanings": [
+      "여름"
+    ],
+    "meaningStatus": "sourced",
+    "meaningSource": "https://raw.githubusercontent.com/libhangul/libhangul/23d2cd9d10d516d523d60c562dbcc7ea08139a09/data/hanja/hanja.txt",
+    "readingSource": "https://raw.githubusercontent.com/rutopio/Korean-Name-Hanja-Charset/12df1ba1b4dfaa095813e4ddfba424e816f94c53/data-gov.csv",
+    "strokeBasis": "written",
+    "strokes": 10,
+    "element": null,
+    "isBulyong": null,
+    "dictionaryStrokes": 10,
+    "strokeReview": "unreviewed",
+    "strokeSources": [
+      {
+        "title": "Unicode 17.0 실제 총획 · 한국 K 자형 우선",
+        "url": "https://www.unicode.org/Public/17.0.0/ucd/Unihan.zip",
+        "basis": "dictionary"
+      }
+    ]
+  },
+  {
+    "id": "하-荷",
+    "reading": "하",
+    "character": "荷",
+    "meaning": "연",
+    "meanings": [
+      "연",
+      "연꽃"
+    ],
+    "meaningStatus": "sourced",
+    "meaningSource": "https://raw.githubusercontent.com/libhangul/libhangul/23d2cd9d10d516d523d60c562dbcc7ea08139a09/data/hanja/hanja.txt",
+    "readingSource": "https://raw.githubusercontent.com/rutopio/Korean-Name-Hanja-Charset/12df1ba1b4dfaa095813e4ddfba424e816f94c53/data-gov.csv",
+    "strokeBasis": "written",
+    "strokes": 10,
+    "element": null,
+    "isBulyong": null,
+    "dictionaryStrokes": 10,
+    "strokeReview": "unreviewed",
+    "strokeSources": [
+      {
+        "title": "Unicode 17.0 실제 총획 · 한국 K 자형 우선",
+        "url": "https://www.unicode.org/Public/17.0.0/ucd/Unihan.zip",
+        "basis": "dictionary"
+      }
+    ]
+  },
+  {
+    "id": "도-道",
+    "reading": "도",
+    "character": "道",
+    "meaning": "길",
+    "meanings": [
+      "길"
+    ],
+    "meaningStatus": "sourced",
+    "meaningSource": "https://raw.githubusercontent.com/libhangul/libhangul/23d2cd9d10d516d523d60c562dbcc7ea08139a09/data/hanja/hanja.txt",
+    "readingSource": "https://raw.githubusercontent.com/rutopio/Korean-Name-Hanja-Charset/12df1ba1b4dfaa095813e4ddfba424e816f94c53/data-gov.csv",
+    "strokeBasis": "written",
+    "strokes": 12,
+    "element": null,
+    "isBulyong": null,
+    "dictionaryStrokes": 12,
+    "strokeReview": "unreviewed",
+    "strokeSources": [
+      {
+        "title": "Unicode 17.0 실제 총획 · 한국 K 자형 우선",
+        "url": "https://www.unicode.org/Public/17.0.0/ucd/Unihan.zip",
+        "basis": "dictionary"
+      }
+    ]
+  },
+  {
+    "id": "도-度",
+    "reading": "도",
+    "character": "度",
+    "meaning": "법도",
+    "meanings": [
+      "법도"
+    ],
+    "meaningStatus": "sourced",
+    "meaningSource": "https://raw.githubusercontent.com/libhangul/libhangul/23d2cd9d10d516d523d60c562dbcc7ea08139a09/data/hanja/hanja.txt",
+    "readingSource": "https://raw.githubusercontent.com/rutopio/Korean-Name-Hanja-Charset/12df1ba1b4dfaa095813e4ddfba424e816f94c53/data-gov.csv",
+    "strokeBasis": "written",
+    "strokes": 9,
+    "element": null,
+    "isBulyong": null,
+    "dictionaryStrokes": 9,
+    "strokeReview": "unreviewed",
+    "strokeSources": [
+      {
+        "title": "Unicode 17.0 실제 총획 · 한국 K 자형 우선",
+        "url": "https://www.unicode.org/Public/17.0.0/ucd/Unihan.zip",
+        "basis": "dictionary"
+      }
+    ]
+  },
+  {
+    "id": "윤-允",
+    "reading": "윤",
+    "character": "允",
+    "meaning": "미쁠",
+    "meanings": [
+      "미쁠",
+      "마땅할",
+      "옳게 여길",
+      "좇을",
+      "허락할",
+      "진실로"
+    ],
+    "meaningStatus": "sourced",
+    "meaningSource": "https://raw.githubusercontent.com/libhangul/libhangul/23d2cd9d10d516d523d60c562dbcc7ea08139a09/data/hanja/hanja.txt",
+    "readingSource": "https://raw.githubusercontent.com/rutopio/Korean-Name-Hanja-Charset/12df1ba1b4dfaa095813e4ddfba424e816f94c53/data-gov.csv",
+    "strokeBasis": "written",
+    "strokes": 4,
+    "element": null,
+    "isBulyong": null,
+    "dictionaryStrokes": 4,
+    "strokeReview": "unreviewed",
+    "strokeSources": [
+      {
+        "title": "Unicode 17.0 실제 총획 · 한국 K 자형 우선",
+        "url": "https://www.unicode.org/Public/17.0.0/ucd/Unihan.zip",
+        "basis": "dictionary"
+      }
+    ]
+  },
+  {
+    "id": "윤-潤",
+    "reading": "윤",
+    "character": "潤",
+    "meaning": "뜻 확인 중",
+    "meanings": [],
+    "meaningStatus": "unavailable",
+    "meaningSource": null,
+    "readingSource": "https://raw.githubusercontent.com/rutopio/Korean-Name-Hanja-Charset/12df1ba1b4dfaa095813e4ddfba424e816f94c53/data-gov.csv",
+    "strokeBasis": "written",
+    "strokes": 15,
+    "element": null,
+    "isBulyong": null,
+    "dictionaryStrokes": 15,
+    "strokeReview": "unreviewed",
+    "strokeSources": [
+      {
+        "title": "Unicode 17.0 실제 총획 · 한국 K 자형 우선",
+        "url": "https://www.unicode.org/Public/17.0.0/ucd/Unihan.zip",
+        "basis": "dictionary"
+      }
+    ]
+  },
+  {
+    "id": "성-成",
+    "reading": "성",
+    "character": "成",
+    "meaning": "이룰",
+    "meanings": [
+      "이룰",
+      "거듭",
+      "마칠",
+      "화목할"
+    ],
+    "meaningStatus": "sourced",
+    "meaningSource": "https://raw.githubusercontent.com/libhangul/libhangul/23d2cd9d10d516d523d60c562dbcc7ea08139a09/data/hanja/hanja.txt",
+    "readingSource": "https://raw.githubusercontent.com/rutopio/Korean-Name-Hanja-Charset/12df1ba1b4dfaa095813e4ddfba424e816f94c53/data-gov.csv",
+    "strokeBasis": "written",
+    "strokes": 6,
+    "element": null,
+    "isBulyong": null,
+    "dictionaryStrokes": 6,
+    "strokeReview": "unreviewed",
+    "strokeSources": [
+      {
+        "title": "Unicode 17.0 실제 총획 · 한국 K 자형 우선",
+        "url": "https://www.unicode.org/Public/17.0.0/ucd/Unihan.zip",
+        "basis": "dictionary"
+      }
+    ]
+  },
+  {
+    "id": "성-星",
+    "reading": "성",
+    "character": "星",
+    "meaning": "별",
+    "meanings": [
+      "별",
+      "희뜩희뜩할",
+      "세월",
+      "성시"
+    ],
+    "meaningStatus": "sourced",
+    "meaningSource": "https://raw.githubusercontent.com/libhangul/libhangul/23d2cd9d10d516d523d60c562dbcc7ea08139a09/data/hanja/hanja.txt",
+    "readingSource": "https://raw.githubusercontent.com/rutopio/Korean-Name-Hanja-Charset/12df1ba1b4dfaa095813e4ddfba424e816f94c53/data-gov.csv",
+    "strokeBasis": "written",
+    "strokes": 9,
+    "element": null,
+    "isBulyong": null,
+    "dictionaryStrokes": 9,
+    "strokeReview": "unreviewed",
+    "strokeSources": [
+      {
+        "title": "Unicode 17.0 실제 총획 · 한국 K 자형 우선",
+        "url": "https://www.unicode.org/Public/17.0.0/ucd/Unihan.zip",
+        "basis": "dictionary"
+      }
+    ]
+  },
+  {
+    "id": "은-恩",
+    "reading": "은",
+    "character": "恩",
+    "meaning": "은혜",
+    "meanings": [
+      "은혜",
+      "신세",
+      "사랑할"
+    ],
+    "meaningStatus": "sourced",
+    "meaningSource": "https://raw.githubusercontent.com/libhangul/libhangul/23d2cd9d10d516d523d60c562dbcc7ea08139a09/data/hanja/hanja.txt",
+    "readingSource": "https://raw.githubusercontent.com/rutopio/Korean-Name-Hanja-Charset/12df1ba1b4dfaa095813e4ddfba424e816f94c53/data-gov.csv",
+    "strokeBasis": "written",
+    "strokes": 10,
+    "element": null,
+    "isBulyong": null,
+    "dictionaryStrokes": 10,
+    "strokeReview": "unreviewed",
+    "strokeSources": [
+      {
+        "title": "Unicode 17.0 실제 총획 · 한국 K 자형 우선",
+        "url": "https://www.unicode.org/Public/17.0.0/ucd/Unihan.zip",
+        "basis": "dictionary"
+      }
+    ]
+  },
+  {
+    "id": "은-銀",
+    "reading": "은",
+    "character": "銀",
+    "meaning": "은",
+    "meanings": [
+      "은",
+      "돈"
+    ],
+    "meaningStatus": "sourced",
+    "meaningSource": "https://raw.githubusercontent.com/libhangul/libhangul/23d2cd9d10d516d523d60c562dbcc7ea08139a09/data/hanja/hanja.txt",
+    "readingSource": "https://raw.githubusercontent.com/rutopio/Korean-Name-Hanja-Charset/12df1ba1b4dfaa095813e4ddfba424e816f94c53/data-gov.csv",
+    "strokeBasis": "written",
+    "strokes": 14,
+    "element": null,
+    "isBulyong": null,
+    "dictionaryStrokes": 14,
+    "strokeReview": "unreviewed",
+    "strokeSources": [
+      {
+        "title": "Unicode 17.0 실제 총획 · 한국 K 자형 우선",
+        "url": "https://www.unicode.org/Public/17.0.0/ucd/Unihan.zip",
+        "basis": "dictionary"
+      }
+    ]
+  },
+  {
+    "id": "진-眞",
+    "reading": "진",
+    "character": "眞",
+    "meaning": "참",
+    "meanings": [
+      "참"
+    ],
+    "meaningStatus": "sourced",
+    "meaningSource": "https://raw.githubusercontent.com/libhangul/libhangul/23d2cd9d10d516d523d60c562dbcc7ea08139a09/data/hanja/hanja.txt",
+    "readingSource": "https://raw.githubusercontent.com/rutopio/Korean-Name-Hanja-Charset/12df1ba1b4dfaa095813e4ddfba424e816f94c53/data-gov.csv",
+    "strokeBasis": "written",
+    "strokes": 10,
+    "element": null,
+    "isBulyong": null,
+    "dictionaryStrokes": 10,
+    "strokeReview": "unreviewed",
+    "strokeSources": [
+      {
+        "title": "Unicode 17.0 실제 총획 · 한국 K 자형 우선",
+        "url": "https://www.unicode.org/Public/17.0.0/ucd/Unihan.zip",
+        "basis": "dictionary"
+      }
+    ]
+  },
+  {
+    "id": "진-珍",
+    "reading": "진",
+    "character": "珍",
+    "meaning": "보배",
+    "meanings": [
+      "보배"
+    ],
+    "meaningStatus": "sourced",
+    "meaningSource": "https://raw.githubusercontent.com/libhangul/libhangul/23d2cd9d10d516d523d60c562dbcc7ea08139a09/data/hanja/hanja.txt",
+    "readingSource": "https://raw.githubusercontent.com/rutopio/Korean-Name-Hanja-Charset/12df1ba1b4dfaa095813e4ddfba424e816f94c53/data-gov.csv",
+    "strokeBasis": "written",
+    "strokes": 9,
+    "element": null,
+    "isBulyong": null,
+    "dictionaryStrokes": 9,
+    "strokeReview": "unreviewed",
+    "strokeSources": [
+      {
+        "title": "Unicode 17.0 실제 총획 · 한국 K 자형 우선",
+        "url": "https://www.unicode.org/Public/17.0.0/ucd/Unihan.zip",
+        "basis": "dictionary"
+      }
+    ]
+  },
+  {
+    "id": "영-永",
+    "reading": "영",
+    "character": "永",
+    "meaning": "길",
+    "meanings": [
+      "길",
+      "오랠"
+    ],
+    "meaningStatus": "sourced",
+    "meaningSource": "https://raw.githubusercontent.com/libhangul/libhangul/23d2cd9d10d516d523d60c562dbcc7ea08139a09/data/hanja/hanja.txt",
+    "readingSource": "https://raw.githubusercontent.com/rutopio/Korean-Name-Hanja-Charset/12df1ba1b4dfaa095813e4ddfba424e816f94c53/data-gov.csv",
+    "strokeBasis": "written",
+    "strokes": 5,
+    "element": null,
+    "isBulyong": null,
+    "dictionaryStrokes": 5,
+    "strokeReview": "unreviewed",
+    "strokeSources": [
+      {
+        "title": "Unicode 17.0 실제 총획 · 한국 K 자형 우선",
+        "url": "https://www.unicode.org/Public/17.0.0/ucd/Unihan.zip",
+        "basis": "dictionary"
+      }
+    ]
+  },
+  {
+    "id": "영-英",
+    "reading": "영",
+    "character": "英",
+    "meaning": "꽃부리",
+    "meanings": [
+      "꽃부리",
+      "영웅",
+      "구름 뭉게뭉게 일어날",
+      "아름다울"
+    ],
+    "meaningStatus": "sourced",
+    "meaningSource": "https://raw.githubusercontent.com/libhangul/libhangul/23d2cd9d10d516d523d60c562dbcc7ea08139a09/data/hanja/hanja.txt",
+    "readingSource": "https://raw.githubusercontent.com/rutopio/Korean-Name-Hanja-Charset/12df1ba1b4dfaa095813e4ddfba424e816f94c53/data-gov.csv",
+    "strokeBasis": "written",
+    "strokes": 8,
+    "element": null,
+    "isBulyong": null,
+    "dictionaryStrokes": 8,
+    "strokeReview": "unreviewed",
+    "strokeSources": [
+      {
+        "title": "Unicode 17.0 실제 총획 · 한국 K 자형 우선",
+        "url": "https://www.unicode.org/Public/17.0.0/ucd/Unihan.zip",
+        "basis": "dictionary"
+      }
+    ]
+  },
+  {
+    "id": "아-雅",
+    "reading": "아",
+    "character": "雅",
+    "meaning": "아담할",
+    "meanings": [
+      "아담할"
+    ],
+    "meaningStatus": "sourced",
+    "meaningSource": "https://raw.githubusercontent.com/libhangul/libhangul/23d2cd9d10d516d523d60c562dbcc7ea08139a09/data/hanja/hanja.txt",
+    "readingSource": "https://raw.githubusercontent.com/rutopio/Korean-Name-Hanja-Charset/12df1ba1b4dfaa095813e4ddfba424e816f94c53/data-gov.csv",
+    "strokeBasis": "written",
+    "strokes": 12,
+    "element": null,
+    "isBulyong": null,
+    "dictionaryStrokes": 12,
+    "strokeReview": "unreviewed",
+    "strokeSources": [
+      {
+        "title": "Unicode 17.0 실제 총획 · 한국 K 자형 우선",
+        "url": "https://www.unicode.org/Public/17.0.0/ucd/Unihan.zip",
+        "basis": "dictionary"
+      }
+    ]
+  },
+  {
+    "id": "아-娥",
+    "reading": "아",
+    "character": "娥",
+    "meaning": "예쁠",
+    "meanings": [
+      "예쁠"
+    ],
+    "meaningStatus": "sourced",
+    "meaningSource": "https://raw.githubusercontent.com/libhangul/libhangul/23d2cd9d10d516d523d60c562dbcc7ea08139a09/data/hanja/hanja.txt",
+    "readingSource": "https://raw.githubusercontent.com/rutopio/Korean-Name-Hanja-Charset/12df1ba1b4dfaa095813e4ddfba424e816f94c53/data-gov.csv",
+    "strokeBasis": "written",
+    "strokes": 10,
+    "element": null,
+    "isBulyong": null,
+    "dictionaryStrokes": 10,
+    "strokeReview": "unreviewed",
+    "strokeSources": [
+      {
+        "title": "Unicode 17.0 실제 총획 · 한국 K 자형 우선",
+        "url": "https://www.unicode.org/Public/17.0.0/ucd/Unihan.zip",
+        "basis": "dictionary"
+      }
+    ]
+  },
+  {
+    "id": "예-藝",
+    "reading": "예",
+    "character": "藝",
+    "meaning": "재주",
+    "meanings": [
+      "재주",
+      "글",
+      "가늠할",
+      "극진할",
+      "심을"
+    ],
+    "meaningStatus": "sourced",
+    "meaningSource": "https://raw.githubusercontent.com/libhangul/libhangul/23d2cd9d10d516d523d60c562dbcc7ea08139a09/data/hanja/hanja.txt",
+    "readingSource": "https://raw.githubusercontent.com/rutopio/Korean-Name-Hanja-Charset/12df1ba1b4dfaa095813e4ddfba424e816f94c53/data-gov.csv",
+    "strokeBasis": "written",
+    "strokes": 18,
+    "element": null,
+    "isBulyong": null,
+    "dictionaryStrokes": 18,
+    "strokeReview": "unreviewed",
+    "strokeSources": [
+      {
+        "title": "Unicode 17.0 실제 총획 · 한국 K 자형 우선",
+        "url": "https://www.unicode.org/Public/17.0.0/ucd/Unihan.zip",
+        "basis": "dictionary"
+      }
+    ]
+  },
+  {
+    "id": "예-叡",
+    "reading": "예",
+    "character": "叡",
+    "meaning": "밝을",
+    "meanings": [
+      "밝을",
+      "임금",
+      "어질"
+    ],
+    "meaningStatus": "sourced",
+    "meaningSource": "https://raw.githubusercontent.com/libhangul/libhangul/23d2cd9d10d516d523d60c562dbcc7ea08139a09/data/hanja/hanja.txt",
+    "readingSource": "https://raw.githubusercontent.com/rutopio/Korean-Name-Hanja-Charset/12df1ba1b4dfaa095813e4ddfba424e816f94c53/data-gov.csv",
+    "strokeBasis": "written",
+    "strokes": 16,
+    "element": null,
+    "isBulyong": null,
+    "dictionaryStrokes": 16,
+    "strokeReview": "unreviewed",
+    "strokeSources": [
+      {
+        "title": "Unicode 17.0 실제 총획 · 한국 K 자형 우선",
+        "url": "https://www.unicode.org/Public/17.0.0/ucd/Unihan.zip",
+        "basis": "dictionary"
+      }
+    ]
+  },
+  {
+    "id": "원-元",
+    "reading": "원",
+    "character": "元",
+    "meaning": "으뜸",
+    "meanings": [
+      "으뜸",
+      "착하고 어질",
+      "일 년의 첫 날",
+      "임금",
+      "백성",
+      "하늘"
+    ],
+    "meaningStatus": "sourced",
+    "meaningSource": "https://raw.githubusercontent.com/libhangul/libhangul/23d2cd9d10d516d523d60c562dbcc7ea08139a09/data/hanja/hanja.txt",
+    "readingSource": "https://raw.githubusercontent.com/rutopio/Korean-Name-Hanja-Charset/12df1ba1b4dfaa095813e4ddfba424e816f94c53/data-gov.csv",
+    "strokeBasis": "written",
+    "strokes": 4,
+    "element": null,
+    "isBulyong": null,
+    "dictionaryStrokes": 4,
+    "strokeReview": "unreviewed",
+    "strokeSources": [
+      {
+        "title": "Unicode 17.0 실제 총획 · 한국 K 자형 우선",
+        "url": "https://www.unicode.org/Public/17.0.0/ucd/Unihan.zip",
+        "basis": "dictionary"
+      }
+    ]
+  },
+  {
+    "id": "원-源",
+    "reading": "원",
+    "character": "源",
+    "meaning": "근원",
+    "meanings": [
+      "근원",
+      "샘",
+      "계속할"
+    ],
+    "meaningStatus": "sourced",
+    "meaningSource": "https://raw.githubusercontent.com/libhangul/libhangul/23d2cd9d10d516d523d60c562dbcc7ea08139a09/data/hanja/hanja.txt",
+    "readingSource": "https://raw.githubusercontent.com/rutopio/Korean-Name-Hanja-Charset/12df1ba1b4dfaa095813e4ddfba424e816f94c53/data-gov.csv",
+    "strokeBasis": "written",
+    "strokes": 13,
+    "element": null,
+    "isBulyong": null,
+    "dictionaryStrokes": 13,
+    "strokeReview": "unreviewed",
+    "strokeSources": [
+      {
+        "title": "Unicode 17.0 실제 총획 · 한국 K 자형 우선",
+        "url": "https://www.unicode.org/Public/17.0.0/ucd/Unihan.zip",
+        "basis": "dictionary"
+      }
+    ]
+  },
+  {
+    "id": "태-泰",
+    "reading": "태",
+    "character": "泰",
+    "meaning": "클",
+    "meanings": [
+      "클",
+      "통할",
+      "너그러울",
+      "편안할",
+      "괘 이름"
+    ],
+    "meaningStatus": "sourced",
+    "meaningSource": "https://raw.githubusercontent.com/libhangul/libhangul/23d2cd9d10d516d523d60c562dbcc7ea08139a09/data/hanja/hanja.txt",
+    "readingSource": "https://raw.githubusercontent.com/rutopio/Korean-Name-Hanja-Charset/12df1ba1b4dfaa095813e4ddfba424e816f94c53/data-gov.csv",
+    "strokeBasis": "written",
+    "strokes": 10,
+    "element": null,
+    "isBulyong": null,
+    "dictionaryStrokes": 10,
+    "strokeReview": "unreviewed",
+    "strokeSources": [
+      {
+        "title": "Unicode 17.0 실제 총획 · 한국 K 자형 우선",
+        "url": "https://www.unicode.org/Public/17.0.0/ucd/Unihan.zip",
+        "basis": "dictionary"
+      }
+    ]
+  },
+  {
+    "id": "희-熙",
+    "reading": "희",
+    "character": "熙",
+    "meaning": "빛날",
+    "meanings": [
+      "빛날"
+    ],
+    "meaningStatus": "sourced",
+    "meaningSource": "https://raw.githubusercontent.com/libhangul/libhangul/23d2cd9d10d516d523d60c562dbcc7ea08139a09/data/hanja/hanja.txt",
+    "readingSource": "https://raw.githubusercontent.com/rutopio/Korean-Name-Hanja-Charset/12df1ba1b4dfaa095813e4ddfba424e816f94c53/data-gov.csv",
+    "strokeBasis": "written",
+    "strokes": 14,
+    "element": null,
+    "isBulyong": null,
+    "dictionaryStrokes": 14,
+    "strokeReview": "unreviewed",
+    "strokeSources": [
+      {
+        "title": "Unicode 17.0 실제 총획 · 한국 K 자형 우선",
+        "url": "https://www.unicode.org/Public/17.0.0/ucd/Unihan.zip",
+        "basis": "dictionary"
+      }
+    ]
+  },
+  {
+    "id": "호-浩",
+    "reading": "호",
+    "character": "浩",
+    "meaning": "클",
+    "meanings": [
+      "클"
+    ],
+    "meaningStatus": "sourced",
+    "meaningSource": "https://raw.githubusercontent.com/libhangul/libhangul/23d2cd9d10d516d523d60c562dbcc7ea08139a09/data/hanja/hanja.txt",
+    "readingSource": "https://raw.githubusercontent.com/rutopio/Korean-Name-Hanja-Charset/12df1ba1b4dfaa095813e4ddfba424e816f94c53/data-gov.csv",
+    "strokeBasis": "written",
+    "strokes": 10,
+    "element": null,
+    "isBulyong": null,
+    "dictionaryStrokes": 10,
+    "strokeReview": "unreviewed",
+    "strokeSources": [
+      {
+        "title": "Unicode 17.0 실제 총획 · 한국 K 자형 우선",
+        "url": "https://www.unicode.org/Public/17.0.0/ucd/Unihan.zip",
+        "basis": "dictionary"
+      }
+    ]
+  },
+  {
+    "id": "빈-彬",
+    "reading": "빈",
+    "character": "彬",
+    "meaning": "빛날",
+    "meanings": [
+      "빛날"
+    ],
+    "meaningStatus": "sourced",
+    "meaningSource": "https://raw.githubusercontent.com/libhangul/libhangul/23d2cd9d10d516d523d60c562dbcc7ea08139a09/data/hanja/hanja.txt",
+    "readingSource": "https://raw.githubusercontent.com/rutopio/Korean-Name-Hanja-Charset/12df1ba1b4dfaa095813e4ddfba424e816f94c53/data-gov.csv",
+    "strokeBasis": "written",
+    "strokes": 11,
+    "element": null,
+    "isBulyong": null,
+    "dictionaryStrokes": 11,
+    "strokeReview": "unreviewed",
+    "strokeSources": [
+      {
+        "title": "Unicode 17.0 실제 총획 · 한국 K 자형 우선",
+        "url": "https://www.unicode.org/Public/17.0.0/ucd/Unihan.zip",
+        "basis": "dictionary"
+      }
+    ]
+  },
+  {
+    "id": "건-健",
+    "reading": "건",
+    "character": "健",
+    "meaning": "굳셀",
+    "meanings": [
+      "굳셀",
+      "병 없을",
+      "탐할"
+    ],
+    "meaningStatus": "sourced",
+    "meaningSource": "https://raw.githubusercontent.com/libhangul/libhangul/23d2cd9d10d516d523d60c562dbcc7ea08139a09/data/hanja/hanja.txt",
+    "readingSource": "https://raw.githubusercontent.com/rutopio/Korean-Name-Hanja-Charset/12df1ba1b4dfaa095813e4ddfba424e816f94c53/data-gov.csv",
+    "strokeBasis": "written",
+    "strokes": 10,
+    "element": null,
+    "isBulyong": null,
+    "dictionaryStrokes": 10,
+    "strokeReview": "unreviewed",
+    "strokeSources": [
+      {
+        "title": "Unicode 17.0 실제 총획 · 한국 K 자형 우선",
+        "url": "https://www.unicode.org/Public/17.0.0/ucd/Unihan.zip",
+        "basis": "dictionary"
+      }
+    ]
+  },
+  {
+    "id": "율-律",
+    "reading": "율",
+    "character": "律",
+    "meaning": "법",
+    "meanings": [
+      "법",
+      "풍률",
+      "지을",
+      "저울질할"
+    ],
+    "meaningStatus": "sourced",
+    "meaningSource": "https://raw.githubusercontent.com/libhangul/libhangul/23d2cd9d10d516d523d60c562dbcc7ea08139a09/data/hanja/hanja.txt",
+    "readingSource": "https://raw.githubusercontent.com/rutopio/Korean-Name-Hanja-Charset/12df1ba1b4dfaa095813e4ddfba424e816f94c53/data-gov.csv",
+    "strokeBasis": "written",
+    "strokes": 9,
+    "element": null,
+    "isBulyong": null,
+    "dictionaryStrokes": 9,
+    "strokeReview": "unreviewed",
+    "strokeSources": [
+      {
+        "title": "Unicode 17.0 실제 총획 · 한국 K 자형 우선",
+        "url": "https://www.unicode.org/Public/17.0.0/ucd/Unihan.zip",
+        "basis": "dictionary"
+      }
+    ]
+  }
+]

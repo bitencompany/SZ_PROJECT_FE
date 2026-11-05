@@ -27,7 +27,7 @@ test("한글 음과 검색어로 한자를 조회하고 예시 데이터 출처�
   );
 });
 
-test("泰는 원획 기준 9와 사전 총획 10을 분리하고 대조 출처를 제공한다", async () => {
+test("泰는 실제 필획 10과 한국어 훈음 출처를 제공한다", async () => {
   const response = await GET(
     new Request("http://localhost/api/hanja?reading=태"),
   );
@@ -35,8 +35,19 @@ test("泰는 원획 기준 9와 사전 총획 10을 분리하고 대조 출처�
   const tae = data.find(
     (item: { character: string }) => item.character === "泰",
   );
-  assert.equal(tae.strokes, 9);
+  assert.equal(tae.strokes, 10);
   assert.equal(tae.dictionaryStrokes, 10);
-  assert.equal(tae.strokeReview, "reference-checked");
-  assert.equal(tae.strokeSources.length, 2);
+  assert.equal(tae.strokeBasis, "written");
+  assert.equal(tae.meaningStatus, "sourced");
+  assert.ok(tae.meaningSource.includes("libhangul"));
+  assert.equal(tae.strokeSources.length, 1);
+});
+
+test("훈음 전체와 공백을 포함한 검색어도 조회된다", async () => {
+  for (const q of ["글 서", "글서", "書", " 서 "]) {
+    const response = await GET(new Request(`http://localhost/api/hanja?${new URLSearchParams({reading:"서",q})}`));
+    assert.equal(response.status, 200);
+    const result = await response.json();
+    assert.ok(result.data.some((item: {character:string}) => item.character === "書"));
+  }
 });

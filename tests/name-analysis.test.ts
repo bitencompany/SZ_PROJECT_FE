@@ -1,6 +1,7 @@
 import { test } from "node:test";
 import assert from "node:assert/strict";
 import { readFileSync } from "node:fs";
+import { hanjaList } from "../src/data/hanja";
 import {
   analyzeName,
   normalizeSuri,
@@ -44,6 +45,17 @@ test("선택 한자 음 불일치·없는 한자·지원하지 않는 이름은 
   assert.throws(() => analyzeName("김서준", ["김-金", "서-假", "준-俊"]));
   assert.throws(() => analyzeName("남궁민수", ["김-金", "서-書", "준-俊"]));
   assert.throws(() => analyzeName("김서준", ["김-金"]));
+});
+test("김태준은 泰 실제 필획 10으로 계산하며 미확인 값은 원획으로 대체하지 않는다", () => {
+  assert.deepEqual(analyzeName("김태준", ["김-金", "태-泰", "준-俊"]).grids.map((g) => g.total), [19, 18, 17, 27]);
+  const tae = hanjaList.find((item) => item.character === "泰")!;
+  const saved = tae.dictionaryStrokes;
+  try {
+    tae.dictionaryStrokes = null;
+    assert.throws(() => analyzeName("김태준", ["김-金", "태-泰", "준-俊"]), /실제 획수/);
+  } finally {
+    tae.dictionaryStrokes = saved;
+  }
 });
 test("초성 매핑과 미정 된소리 처리를 구분한다", (): void => {
   assert.deepEqual(["가", "나", "하", "사", "마"].map(soundElement), [

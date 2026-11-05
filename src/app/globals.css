@@ -1366,3 +1366,418 @@ dialog::backdrop {
 .checkout-details dd {
   overflow-wrap: anywhere;
 }
+
+/* 사주 원국과 해설: 오행 색 + 문자 라벨을 함께 사용합니다. */
+.saju-reading {
+  margin-top: 16px;
+  color: #384b3d;
+  font-size: 13px;
+  line-height: 1.8;
+}
+.saju-reading h4 {
+  font-size: 17px;
+  font-weight: 600;
+  line-height: 1.5;
+  margin: 5px 0 10px;
+}
+.saju-reading h5 {
+  font-size: 13px;
+  font-weight: 650;
+  line-height: 1.65;
+}
+.saju-reading p {
+  margin: 8px 0;
+  overflow-wrap: anywhere;
+}
+.saju-reading small {
+  font-size: 11px;
+  color: #667565;
+}
+.saju-heading {
+  margin: 25px 0 18px;
+}
+.saju-heading > span {
+  font-family: var(--serif);
+  letter-spacing: 0.32em;
+  color: #778b6e;
+}
+.saju-heading > p {
+  color: #667565;
+}
+.saju-table-scroll {
+  width: 100%;
+  overflow-x: auto;
+  border: 1px solid #d7dfd0;
+  border-radius: 12px;
+  background: #fffefa;
+}
+.saju-chart {
+  width: 100%;
+  min-width: 350px;
+  border-collapse: collapse;
+  table-layout: fixed;
+  text-align: center;
+  font-size: 11px;
+}
+.saju-chart th:first-child {
+  width: 53px;
+}
+.saju-chart th,
+.saju-chart td {
+  padding: 10px 3px;
+  border-bottom: 1px solid #e5e9df;
+  border-right: 1px solid #e5e9df;
+  vertical-align: middle;
+}
+.saju-chart th {
+  background: #f4f6ef;
+  color: #54684c;
+  font-weight: 600;
+}
+.saju-chart thead th {
+  font-size: 14px;
+  padding: 14px 3px;
+}
+.saju-chart small {
+  display: block;
+  font-size: 10px;
+  font-weight: 400;
+  line-height: 1.55;
+}
+.saju-chart .saju-day {
+  background: #e5eddd;
+  color: #354e2d;
+}
+.saju-chart td:last-child,
+.saju-chart th:last-child {
+  border-right: 0;
+}
+.saju-chart tr:last-child td,
+.saju-chart tr:last-child th {
+  border-bottom: 0;
+}
+.saju-chart .saju-glyph-cell {
+  padding: 5px;
+}
+.saju-glyph {
+  width: 100%;
+  border: 2px solid transparent;
+  border-radius: 8px;
+  min-height: 111px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 9px 2px;
+  cursor: pointer;
+}
+.saju-glyph strong {
+  font-family: var(--serif);
+  font-size: 35px;
+  font-weight: 500;
+  line-height: 1.15;
+}
+.saju-glyph > span {
+  font-size: 13px;
+  margin: 4px 0 2px;
+}
+.saju-glyph small {
+  color: inherit;
+  font-size: 10px;
+}
+.saju-glyph[aria-pressed="true"] {
+  border-color: currentColor;
+  box-shadow: inset 0 0 0 2px #fff9;
+}
+.saju-glyph:focus-visible {
+  outline: 3px solid #426b8d;
+  outline-offset: 2px;
+}
+.saju-목 {
+  background: #e4eddf;
+  color: #3e633d;
+}
+.saju-화 {
+  background: #f5e1d9;
+  color: #965239;
+}
+.saju-토 {
+  background: #eee8cf;
+  color: #786526;
+}
+.saju-금 {
+  background: #e7e8ea;
+  color: #56636b;
+}
+.saju-수 {
+  background: #dfeaed;
+  color: #3e6676;
+}
+.saju-missing {
+  color: #7c8776;
+  min-height: 111px;
+  display: flex;
+  justify-content: center;
+  flex-direction: column;
+}
+.saju-hidden-stem {
+  display: inline-block;
+  font-family: var(--serif);
+  font-size: 15px;
+  margin: 2px;
+}
+.saju-hidden-stem small {
+  font-family: sans-serif;
+  font-size: 9px;
+}
+.saju-symbol-detail {
+  background: #f0f4e9;
+  border-left: 3px solid #7b936c;
+  padding: 16px 18px;
+  margin: 13px 0 24px;
+  border-radius: 0 8px 8px 0;
+}
+.saju-eyebrow {
+  font-size: 11px;
+  color: #677d59;
+}
+.saju-section {
+  border-top: 1px solid #dce3d5;
+  padding: 18px 0;
+}
+.saju-section > summary {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 8px;
+  cursor: pointer;
+  font-size: 15px;
+  font-weight: 600;
+  list-style: none;
+}
+.saju-section > summary::-webkit-details-marker {
+  display: none;
+}
+.saju-section[open] > summary > span {
+  transform: rotate(45deg);
+}
+.saju-section > summary > span {
+  font-size: 20px;
+  font-weight: 300;
+  color: #748269;
+}
+.saju-intro {
+  color: #6b7865;
+  font-size: 12px;
+  padding-bottom: 8px;
+}
+.saju-daymaster {
+  display: flex;
+  align-items: flex-start;
+  gap: 14px;
+}
+.saju-daymaster-symbol {
+  border-radius: 12px;
+  font: 42px/1 var(--serif);
+  padding: 20px 16px;
+  flex-shrink: 0;
+}
+.saju-daymaster p {
+  font-size: 12px;
+}
+.saju-reading-card {
+  background: #fafbf7;
+  border: 1px solid #e4e9dd;
+  border-radius: 9px;
+  padding: 13px 15px;
+  margin: 10px 0;
+}
+.saju-reading-card > p {
+  font-size: 12px;
+}
+.saju-note {
+  color: #6d7867;
+  font-size: 11px;
+  padding: 8px 0;
+}
+.saju-muted {
+  color: #7e8779;
+  font-size: 11px;
+}
+.saju-element-row {
+  display: grid;
+  grid-template-columns: 105px 1fr 42px;
+  gap: 10px;
+  align-items: center;
+  margin: 12px 0;
+}
+.saju-element-row > span {
+  display: flex;
+  gap: 9px;
+  align-items: center;
+}
+.saju-element-row small {
+  font-size: 10px;
+}
+.saju-element-row > strong {
+  font-size: 12px;
+  font-weight: 500;
+  text-align: right;
+}
+.saju-bar-track {
+  background: #eef0e8;
+  height: 13px;
+  border-radius: 5px;
+  overflow: hidden;
+}
+.saju-bar {
+  height: 100%;
+  border-radius: 5px;
+  border: 1px solid currentColor;
+}
+.saju-group-tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 7px;
+  margin: 12px 0;
+}
+.saju-group-tags > span {
+  display: flex;
+  flex: 1 0 64px;
+  align-items: center;
+  flex-direction: column;
+  background: #f2f5ed;
+  padding: 10px 5px;
+  border-radius: 7px;
+}
+.saju-group-tags small {
+  font-size: 10px;
+  text-align: center;
+}
+.saju-definitions > div {
+  display: grid;
+  grid-template-columns: 65px 1fr;
+  gap: 12px;
+  padding: 13px 0;
+  border-bottom: 1px dotted #dce3d5;
+}
+.saju-definitions dt {
+  font-weight: 600;
+}
+.saju-definitions small {
+  display: block;
+  margin-top: 4px;
+}
+.saju-definitions dd {
+  font-size: 12px;
+}
+.saju-relation-heading {
+  display: flex;
+  justify-content: space-between;
+  gap: 10px;
+}
+.saju-relation-heading h5 span {
+  border: 1px solid #d7dfd0;
+  border-radius: 20px;
+  padding: 1px 8px;
+  margin-left: 6px;
+  font-size: 11px;
+}
+.saju-evidence {
+  margin-top: 10px;
+  color: #68785f;
+  font-size: 11px;
+}
+.saju-evidence > summary {
+  cursor: pointer;
+  text-decoration: underline;
+  text-underline-offset: 3px;
+}
+.saju-evidence li {
+  margin: 6px 0;
+}
+.saju-decade-list {
+  display: grid;
+  grid-auto-flow: column;
+  grid-auto-columns: 83px;
+  overflow-x: auto;
+  gap: 8px;
+  padding: 10px 0;
+}
+.saju-decade-list article {
+  display: flex;
+  align-items: center;
+  flex-direction: column;
+  border-radius: 8px;
+  padding: 12px 6px;
+  background: #f0f4e9;
+}
+.saju-decade-list strong {
+  font: 23px/1.5 var(--serif);
+  margin-top: 4px;
+}
+.saju-keywords {
+  display: flex;
+  gap: 6px;
+  flex-wrap: wrap;
+}
+.saju-keywords span {
+  border: 1px solid #cdd9c4;
+  padding: 3px 10px;
+  border-radius: 20px;
+  font-size: 11px;
+}
+.saju-footer {
+  border-top: 1px solid #dce3d5;
+  padding-top: 15px;
+  color: #7b8772;
+  font-size: 10px;
+}
+@media (max-width: 520px) {
+  .saju-reading {
+    font-size: 12px;
+  }
+  .saju-chart {
+    min-width: 0;
+  }
+  .saju-chart th:first-child {
+    width: 35px;
+  }
+  .saju-chart thead th {
+    font-size: 12px;
+  }
+  .saju-glyph strong {
+    font-size: 29px;
+  }
+  .saju-glyph {
+    min-height: 100px;
+  }
+  .saju-chart .saju-glyph-cell {
+    padding: 2px;
+  }
+  .saju-chart small,
+  .saju-glyph small {
+    font-size: 9px;
+  }
+  .saju-section > summary {
+    font-size: 13px;
+  }
+  .saju-element-row {
+    grid-template-columns: 98px 1fr 40px;
+    gap: 6px;
+  }
+}
+@media (max-width: 360px) {
+  .saju-chart {
+    font-size: 10px;
+  }
+  .saju-glyph strong {
+    font-size: 25px;
+  }
+  .saju-glyph {
+    padding: 7px 0;
+  }
+  .saju-chart thead th {
+    font-size: 11px;
+  }
+}

@@ -1,4 +1,10 @@
 import { z } from "zod";
+import {
+  detailedPillarSchema,
+  detailModulesShape,
+  detailModulesSchema,
+  providerDataSchema,
+} from "./sazu-details";
 import type { BirthInput } from "./validation";
 import type { SazuResult } from "./types";
 
@@ -22,12 +28,13 @@ export function toSazuRequest(input: BirthInput) {
     birthCity: input.birthCity,
   };
 }
-const pillar = z.object({ full: z.string().min(1).max(40) });
+const pillar = detailedPillarSchema;
 const responseSchema = z.object({
   success: z.literal(true),
   data: z.object({
     source: z.literal("SAZU"),
     sandbox: z.boolean(),
+    providerData: providerDataSchema.optional(),
     modules: z.object({
       fourPillars: z.object({
         year: pillar,
@@ -44,25 +51,7 @@ const responseSchema = z.object({
           }),
         )
         .optional(),
-      sinStrength: z
-        .object({
-          strength: z.string().max(100),
-          analysis: z.string().max(4000).optional(),
-        })
-        .optional(),
-      decadeFortune: z
-        .object({
-          direction: z.string().max(100),
-          list: z
-            .array(
-              z.object({
-                startAge: z.number().finite().nonnegative(),
-                full: z.string().max(100),
-              }),
-            )
-            .max(30),
-        })
-        .optional(),
+      ...detailModulesShape,
     }),
   }),
 });
@@ -70,13 +59,22 @@ export function parseSazuResponse(value: unknown): SazuResult {
   const parsed = responseSchema.parse(value);
   const { fourPillars, elements, sinStrength, decadeFortune } =
     parsed.data.modules;
+  const details = detailModulesSchema.parse(parsed.data.modules);
   return {
+    ...(Object.keys(details).length ? { details } : {}),
+    ...(parsed.data.providerData
+      ? { providerData: parsed.data.providerData }
+      : {}),
     sample: parsed.data.sandbox,
     pillars: [
-      { label: "년주", value: fourPillars.year.full },
-      { label: "월주", value: fourPillars.month.full },
-      { label: "일주", value: fourPillars.day.full },
-      { label: "시주", value: fourPillars.hour?.full ?? null },
+      { ...fourPillars.year, label: "년주", value: fourPillars.year.full },
+      { ...fourPillars.month, label: "월주", value: fourPillars.month.full },
+      { ...fourPillars.day, label: "일주", value: fourPillars.day.full },
+      {
+        ...(fourPillars.hour ?? {}),
+        label: "시주",
+        value: fourPillars.hour?.full ?? null,
+      },
     ],
     elements: Object.values(elements ?? {}).map((element) => ({
       name: element.name,
@@ -96,11 +94,9 @@ const previewResponseSchema = responseSchema.extend({
 });
 export function parsePreviewResponse(value: unknown): SazuResult {
   const parsed = previewResponseSchema.parse(value);
-  const { sample, pillars, elements } = parseSazuResponse(parsed);
+  const result = parseSazuResponse(parsed);
   return {
-    sample,
-    pillars,
-    elements,
+    ...result,
     previewId: parsed.data.previewId,
     expiresAt: parsed.data.expiresAt,
     providerVersion: parsed.data.providerVersion,

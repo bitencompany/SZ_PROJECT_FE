@@ -1,9 +1,16 @@
+import type { DetailedPillar, SazuDetails, ProviderData } from "./sazu-details";
 export type Element = "목" | "화" | "토" | "금" | "수";
 export interface Hanja {
   id: string;
   reading: string;
   character: string;
   meaning: string;
+  meanings?: string[];
+  meaningStatus?: "sourced" | "unavailable";
+  meaningSource?: string | null;
+  readingSource?: string;
+  strokeBasis?: "written";
+  searchAliases?: string[];
   strokes: number;
   element: Element | null;
   isBulyong: boolean | null;
@@ -44,6 +51,11 @@ export interface SazuResult {
     direction: string;
     list: { startAge: number; full: string }[];
   };
-  pillars: { label: string; value: string | null }[];
+  details?: SazuDetails;
+  providerData?: ProviderData;
+  pillars: ({
+    label: string;
+    value: string | null;
+  } & Partial<DetailedPillar>)[];
   elements: { name: string; count: number }[];
 }

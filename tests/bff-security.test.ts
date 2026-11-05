@@ -88,6 +88,32 @@ test("신뢰 IP는 Vercel 환경의 단일 유효 플랫폼 IP만 허용한다",
   }
 });
 
+test("로컬 미리보기는 명시적 개발 설정과 양쪽 loopback 주소에서만 허용한다", () => {
+  const headers = new Headers({
+    "x-client-ip": "192.0.2.1",
+    "x-forwarded-for": "192.0.2.2",
+  });
+  const local = {
+    source: "local",
+    environment: "development",
+    appUrl: "http://127.0.0.1:3000",
+    backendUrl: "http://127.0.0.1:3017",
+  };
+  assert.equal(trustedPreviewIp(headers, local), "127.0.0.1");
+  for (const override of [
+    { environment: "production" },
+    { environment: "test" },
+    { source: "disabled" },
+    { vercel: "1" },
+    { appUrl: "https://example.com" },
+    { backendUrl: "https://example.com" },
+    { appUrl: "http://127.0.0.1.example.com" },
+    { backendUrl: undefined },
+    { appUrl: "http://user:pass@127.0.0.1" },
+  ])
+    assert.throws(() => trustedPreviewIp(headers, { ...local, ...override }));
+});
+
 test("익명 ID 쿠키는 서버 서명 검증·만료·용도 구분을 적용한다", (t) => {
   const old = process.env.BFF_SHARED_SECRET;
   process.env.BFF_SHARED_SECRET = "synthetic-test-secret-not-real-00000000";

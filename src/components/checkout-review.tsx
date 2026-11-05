@@ -143,7 +143,7 @@ export function CheckoutReview({
           </dd>
         </div>
         <div>
-          <dt>한자 원획수</dt>
+          <dt>한자 획수</dt>
           <dd>
             {draft.nameMode === "hangul"
               ? "한자 없음 · 획수 풀이 대상이 아니에요."
@@ -151,7 +151,7 @@ export function CheckoutReview({
                 ? nameResult.hanja
                     .map((item, index) =>
                       item
-                        ? `${item.character} ${item.strokes}획`
+                        ? `${item.character} ${item.dictionaryStrokes === null ? "획수 미확인" : `${item.dictionaryStrokes}획`}`
                         : `${draft.name[index]} 한자 없음`,
                     )
                     .join(" · ")

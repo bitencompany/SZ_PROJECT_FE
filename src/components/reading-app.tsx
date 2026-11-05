@@ -20,6 +20,8 @@ import {
   type HanjaSelection,
 } from "@/lib/name-input";
 import { apiMessage, clientApi, ApiFailure } from "@/lib/client-api";
+import { SajuReading } from "./saju-reading";
+import { hanjaLabel, matchesHanja } from "@/lib/hanja-search";
 import { StrokeReference } from "./stroke-reference";
 import type { Hanja, NameResult, SazuResult } from "@/lib/types";
 import {
@@ -32,8 +34,10 @@ class ReadingError extends Error {}
 
 export function ReadingApp({
   signedIn = false,
+  backendNameEnabled = false,
 }: {
   signedIn?: boolean;
+  backendNameEnabled?: boolean;
 }): ReactNode {
   const [hanjaList, setHanjaList] = useState<Hanja[]>([]);
   const [hanjaLoading, setHanjaLoading] = useState<boolean>(false);
@@ -44,6 +48,8 @@ export function ReadingApp({
   const [resultCatalog, setResultCatalog] = useState<"preview" | "verified">(
     "preview",
   );
+  const [catalogVersion, setCatalogVersion] = useState("");
+  const [resultCatalogVersion, setResultCatalogVersion] = useState("");
   const [restored, setRestored] = useState<boolean>(false);
   const [lookupRetry, setLookupRetry] = useState<number>(0);
   const [step, setStep] = useState<number>(1);
@@ -96,7 +102,7 @@ export function ReadingApp({
       : hanjaList.filter(
           (item: Hanja): boolean =>
             item.reading === name[active] &&
-            `${item.character}${item.meaning}`.includes(query),
+            matchesHanja(item, query),
         );
   const complete: boolean =
     nameInputSchema.safeParse({ name, nameMode, surnameLength, hanjaIds: ids })
@@ -155,6 +161,11 @@ export function ReadingApp({
         .then((responses) => {
           if (controller.signal.aborted) return;
           setHanjaList(responses.flatMap((response) => response.data));
+          setCatalogVersion(
+            [
+              ...new Set(responses.map((response) => response.catalog.version)),
+            ].join(", "),
+          );
           setCatalogStatus(
             responses.every(
               (response) => response.catalog.status === "verified",
@@ -195,7 +206,11 @@ export function ReadingApp({
       step: draftStep,
     };
     const preview =
-      sazu?.previewId && sazu.expiresAt && sazu.providerVersion
+      sazu &&
+      !sazu.sample &&
+      sazu.previewId &&
+      sazu.expiresAt &&
+      sazu.providerVersion
         ? {
             id: sazu.previewId,
             expiresAt: sazu.expiresAt,
@@ -206,6 +221,7 @@ export function ReadingApp({
   }
 
   function continueToDetail(): void {
+    if (sazu?.sample) return;
     if (!saveInput()) {
       setError(
         "입력 내용을 보관하지 못했어요. 브라우저의 사이트 저장소를 허용한 뒤 다시 시도해 주세요.",
@@ -241,9 +257,13 @@ export function ReadingApp({
     setError("");
   }
   function sampleName(): void {
-    setSurname("김");
-    setGivenName("서준");
-    setIds(["김-金", "서-書", "준-俊"]);
+    setSurname(backendNameEnabled ? "이" : "김");
+    setGivenName(backendNameEnabled ? "서윤" : "서준");
+    setIds(
+      backendNameEnabled
+        ? ["jmd-674e-c774", "jmd-66f8-c11c", "jmd-6f64-c724"]
+        : ["김-金", "서-書", "준-俊"],
+    );
     setActive(null);
     setError("");
   }
@@ -301,6 +321,7 @@ export function ReadingApp({
       saveInput(2);
       setResult(validated.data);
       setResultCatalog(validated.catalog.status);
+      setResultCatalogVersion(validated.catalog.version);
       if (hasBirth) await analyzeSazu();
     } catch (cause: unknown) {
       setError(
@@ -599,18 +620,16 @@ export function ReadingApp({
                               </strong>
                               <span className="slot-meaning">
                                 {selected[index]
-                                  ? `${selected[index]?.meaning} ${name[index]}`
+                                  ? hanjaLabel(selected[index]!)
                                   : ids[index] === null
                                     ? "한자 없음"
                                     : "한자 선택 +"}
                               </span>
                               {selected[index] && (
                                 <small>
-                                  {selected[index]?.strokeReview ===
-                                  "unreviewed"
-                                    ? "예시 원획"
-                                    : "원획"}{" "}
-                                  {selected[index]?.strokes}획 <span>✓</span>
+                                  {selected[index]?.dictionaryStrokes === null
+                                    ? "획수 미확인"
+                                    : `${selected[index]?.dictionaryStrokes}획`} <span>✓</span>
                                 </small>
                               )}
                             </button>
@@ -644,8 +663,8 @@ export function ReadingApp({
                         <span>ⓘ</span>
                         <p>
                           {catalogStatus === "preview"
-                            ? "현재는 예시 한자로 분석하는 체험 버전이에요. 전체 인명용 한자 DB는 준비 중입니다."
-                            : "이름에 실제로 쓰는 한자를 직접 선택해 주세요. 같은 음이라도 한자에 따라 뜻과 원획수가 달라요."}
+                            ? "한자·독음과 사전 뜻을 대조 중인 체험 버전이에요. 뜻이 확보되지 않은 글자는 ‘뜻 확인 중’으로 표시해요."
+                            : "이름에 실제로 쓰는 한자를 직접 선택해 주세요. 같은 음이라도 한자에 따라 뜻과 획수가 달라요."}
                         </p>
                       </div>
                     </>
@@ -846,7 +865,7 @@ export function ReadingApp({
                   {nameMode === "hangul"
                     ? "한자 없는 이름의 발음오행 미리보기예요."
                     : resultCatalog === "preview"
-                      ? "예시 한자 데이터로 계산한 무료 미리보기예요."
+                      ? "미검수 한자 자료로 계산한 참고용 미리보기예요. 실제 작명 판단에 사용하지 마세요."
                       : "선택한 이름과 한자로 계산한 무료 미리보기예요."}
                 </p>
                 {result.hanja.length > 0 && (
@@ -859,21 +878,26 @@ export function ReadingApp({
                           </strong>
                           <span>
                             {item
-                              ? `${item.meaning} ${item.reading}`
+                              ? hanjaLabel(item)
                               : "한자 없음"}
                           </span>
                           {item && (
                             <small>
-                              {item.strokeReview === "unreviewed"
-                                ? "예시 원획"
-                                : "원획"}{" "}
-                              {item.strokes}획
+                              {item.dictionaryStrokes === null ? "획수 미확인" : `${item.dictionaryStrokes}획`}
                             </small>
                           )}
                         </div>
                       ),
                     )}
                   </div>
+                )}
+                {result.hanja.some(Boolean) && (
+                  <p className="field-help">
+                    자료 버전: {resultCatalogVersion} ·{" "}
+                    {resultCatalog === "preview"
+                      ? "검수 전 참고 자료"
+                      : "검수 자료"}
+                  </p>
                 )}
                 <StrokeReference items={result.hanja} />
                 {result.analysisNotice && (
@@ -937,43 +961,7 @@ export function ReadingApp({
                     <span>SAZU</span>
                   </div>
                   {sazu ? (
-                    <>
-                      {sazu.sample && (
-                        <p className="sample-notice">
-                          SAZU 고정 샘플 결과입니다. 개인의 실제 분석 결과가
-                          아닙니다.
-                        </p>
-                      )}
-                      <div className="pillars">
-                        {sazu.pillars.map((pillar): ReactNode => (
-                          <div key={pillar.label}>
-                            <small>{pillar.label}</small>
-                            <strong>{pillar.value ?? "미상"}</strong>
-                          </div>
-                        ))}
-                      </div>
-                      <div className="elements-result">
-                        {sazu.elements.map((item, index: number): ReactNode => (
-                          <span key={index}>
-                            {item.name} <b>{item.count}</b>
-                          </span>
-                        ))}
-                      </div>
-                      {sazu.elements.length === 0 && (
-                        <p className="field-help">
-                          오행 분포는 제공되지 않았어요.
-                        </p>
-                      )}
-                      {sazu.strength && (
-                        <p className="field-help">
-                          신강약: {sazu.strength.strength}
-                        </p>
-                      )}
-                      <p className="field-help">
-                        오행 개수만으로 용신이나 이름의 좋고 나쁨을 단정하지
-                        않습니다.
-                      </p>
-                    </>
+                    <SajuReading result={sazu} />
                   ) : (
                     <>
                       <p>
@@ -1028,6 +1016,7 @@ export function ReadingApp({
                     disabled={
                       sazuLoading ||
                       loading ||
+                      !!sazu?.sample ||
                       !supportsStoredName({ name, nameMode, surnameLength })
                     }
                     onClick={continueToDetail}
@@ -1035,11 +1024,13 @@ export function ReadingApp({
                     더 자세한 내용 보기 <span aria-hidden>→</span>
                   </button>
                   <p className="field-help">
-                    {!supportsStoredName({ name, nameMode, surnameLength })
-                      ? "이 이름 형식의 계정 보관과 상세 풀이는 준비 중이에요. 지금은 무료 미리보기를 이용해 주세요."
-                      : signedIn
-                        ? "입력 정보를 확인하고 내 계정에 보관할 수 있어요."
-                        : "로그인 후 입력 정보를 확인하고 보관할 수 있어요."}
+                    {sazu?.sample
+                      ? "무료 샘플 결과는 상세 풀이와 계정 보관으로 이어지지 않아요."
+                      : !supportsStoredName({ name, nameMode, surnameLength })
+                        ? "이 이름 형식의 계정 보관과 상세 풀이는 준비 중이에요. 지금은 무료 미리보기를 이용해 주세요."
+                        : signedIn
+                          ? "입력 정보를 확인하고 내 계정에 보관할 수 있어요."
+                          : "로그인 후 입력 정보를 확인하고 보관할 수 있어요."}
                     <br />
                     현재 상세 풀이 결제는 준비 중이며, 요금은 청구되지 않습니다.
                   </p>
@@ -1080,7 +1071,7 @@ export function ReadingApp({
             <span>02 / 名</span>
             <h3>이름의 뜻을 살펴</h3>
             <p>
-              정확한 한자와 원획수를 바탕으로
+              정확한 한자와 획수를 바탕으로
               <br />
               이름에 담긴 흐름을 알아봅니다.
             </p>
@@ -1129,13 +1120,16 @@ export function ReadingApp({
           </h2>
           <p className="card-description">
             {catalogStatus === "preview"
-              ? "예시 한자 목록"
+              ? "미검수 참고 한자 목록"
               : "인명용 한자 목록"}{" "}
-            · 원획수 기준
+            · 실제 필획 기준
           </p>
+          {catalogVersion && (
+            <p className="field-help">자료 버전: {catalogVersion}</p>
+          )}
           <input
-            aria-label="한자 또는 뜻 검색"
-            placeholder="한자 또는 뜻으로 검색"
+            aria-label="한자·뜻·본관 검색"
+            placeholder="한자·뜻·본관 검색 (예: 진주 강)"
             value={query}
             onChange={(event): void => setQuery(event.target.value)}
             autoFocus
@@ -1157,13 +1151,12 @@ export function ReadingApp({
               >
                 <strong>{item.character}</strong>
                 <span>
-                  {item.meaning} {item.reading}
+                  {hanjaLabel(item)}
+                  {item.searchAliases?.length ? (
+                    <small>{item.searchAliases.join(" · ")}</small>
+                  ) : null}
                   <small>
-                    {item.strokeReview === "unreviewed" ? "예시 원획" : "원획"}{" "}
-                    {item.strokes}획
-                    {item.dictionaryStrokes !== null
-                      ? ` · 사전 ${item.dictionaryStrokes}획`
-                      : " · 미검수"}
+                    {item.dictionaryStrokes === null ? "획수 미확인" : `${item.dictionaryStrokes}획`}
                   </small>
                 </span>
                 <span aria-hidden>＋</span>
@@ -1178,9 +1171,12 @@ export function ReadingApp({
           )}
           {!hanjaLoading && !hanjaError && candidates.length === 0 && (
             <p className="empty-state">
-              해당 한자가 아직 목록에 없어요.
+              {query
+                ? "검색 조건에 맞는 한자가 없어요. 검색어를 지우거나 바꿔 주세요."
+                : "현재 자료에 없는 독음/한자예요. 법적으로 사용할 수 없는 한자라는 뜻은 아닙니다."}
               <br />
-              검색어를 바꾸거나 예시 이름으로 체험해 주세요.
+              실제 이름에 한자가 있다면 ‘한자가 아니에요’를 선택하지 말고, 예시
+              이름으로 체험해 주세요.
             </p>
           )}
         </div>

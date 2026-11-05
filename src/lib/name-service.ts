@@ -2,6 +2,7 @@ import "server-only";
 import { hanjaList } from "@/data/hanja";
 import { analyzeName, soundElement, relationship } from "./name-analysis";
 import { backendRequest } from "./backend";
+import { matchesHanja } from "./hanja-search";
 import { supportsStoredName, type NameInput } from "./validation";
 import {
   hanjaResponseSchema,
@@ -24,7 +25,7 @@ export async function lookupHanja(reading: string, query = "") {
     data: hanjaList.filter(
       (item) =>
         item.reading === reading &&
-        `${item.character}${item.meaning}`.includes(query),
+        matchesHanja(item, query),
     ),
     catalog: previewCatalog,
   };
@@ -98,17 +99,19 @@ export async function analyzeNameInput(input: NameInput) {
           ? "한자가 없는 글자는 한자 뜻·획수를 부여하지 않으며, 이름 전체의 수리 풀이는 제공하지 않아요. 발음오행과 출생 정보로 사주를 살펴볼 수 있어요."
           : "이 이름 형식의 수리 계산 기준은 검증 중이에요. 선택한 한자와 발음오행을 먼저 보여드려요.",
     },
-    catalog:
-      catalogs.length &&
-      catalogs.every((catalog) => catalog.catalog.status === "verified")
-        ? {
-            status: "verified" as const,
-            version: [
-              ...new Set(catalogs.map((catalog) => catalog.catalog.version)),
-            ]
-              .join("+")
-              .slice(0, 100),
-          }
-        : previewCatalog,
+    catalog: catalogs.length
+      ? {
+          status: catalogs.every(
+            (catalog) => catalog.catalog.status === "verified",
+          )
+            ? ("verified" as const)
+            : ("preview" as const),
+          version: [
+            ...new Set(catalogs.map((catalog) => catalog.catalog.version)),
+          ]
+            .join("+")
+            .slice(0, 100),
+        }
+      : previewCatalog,
   };
 }

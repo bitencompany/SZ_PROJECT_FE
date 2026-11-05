@@ -6,5 +6,10 @@ export const dynamic = "force-dynamic";
 
 export default async function Home(): Promise<ReactNode> {
   const auth = await currentUser();
-  return <ReadingApp signedIn={!!auth.user} />;
+  return (
+    <ReadingApp
+      signedIn={!!auth.user}
+      backendNameEnabled={process.env.BACKEND_NAME_ENABLED === "true"}
+    />
+  );
 }

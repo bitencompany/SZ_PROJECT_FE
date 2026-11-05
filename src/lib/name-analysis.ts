@@ -66,7 +66,11 @@ export function analyzeName(name: string, ids: string[]): NameResult {
     return entry;
   });
   const [a, b, c]: number[] = selected.map(
-    (item: Hanja): number => item.strokes,
+    (item: Hanja): number => {
+      if (item.dictionaryStrokes === null)
+        throw new Error("실제 획수가 확인되지 않은 한자가 있어 수리를 계산할 수 없어요.");
+      return item.dictionaryStrokes;
+    },
   );
   const values: [string, string, number][] = [
     ["원격", "초년운", b + c],

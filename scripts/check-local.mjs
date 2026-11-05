@@ -148,7 +148,7 @@ await run("코드 없는 콜백은 로그인 실패 안내로 복귀", async () 
   );
 });
 
-await run("로컬 BE 공유 비밀 연결·카탈로그 비활성 상태", async () => {
+await run("로컬 BE 공유 비밀 연결·부분 카탈로그 상태", async () => {
   const backend = new URL(process.env.BACKEND_API_URL);
   check(backend.hostname === "127.0.0.1", "local backend only");
   const url = new URL("/api/hanja?reading=김", backend);
@@ -164,8 +164,111 @@ await run("로컬 BE 공유 비밀 연결·카탈로그 비활성 상태", async
   });
   const body = await authorized.json();
   check(
-    authorized.status === 503 && body.error?.code === "CATALOG_NOT_READY",
-    "catalog not ready",
+    authorized.status === 200 &&
+      body.catalog?.status === "preview" &&
+      Array.isArray(body.data) &&
+      body.data.length === 0,
+    "partial catalog: 김 is not covered",
   );
-  check(process.env.BACKEND_NAME_ENABLED === "false", "name feature disabled");
+  if (process.env.BACKEND_NAME_ENABLED === "true") {
+    const gang = await request("/api/hanja?reading=강&q=성%20강");
+    const gangResult = await gang.json();
+    check(gang.status === 200 && gangResult.data.some((h) => h.character === "姜" && h.dictionaryStrokes === 9 && h.strokes === 9), "강 성씨 검색");
+    const fe = await request("/api/hanja?reading=윤&q=潤");
+    const lookup = await fe.json();
+    check(
+      fe.status === 200 && lookup.catalog?.status === "preview",
+      "FE catalog",
+    );
+    check(
+      lookup.data.length === 1 && lookup.data[0].id === "jmd-6f64-c724",
+      "FE filtered entry",
+    );
+    check(lookup.data[0].strokeReview === "unreviewed", "review state");
+    const analysis = await request("/api/name", {
+      method: "POST",
+      headers: { Origin: origin, "Content-Type": "application/json" },
+      body: JSON.stringify({
+        name: "이서윤",
+        nameMode: "hanja",
+        surnameLength: 1,
+        hanjaIds: ["jmd-674e-c774", "jmd-66f8-c11c", "jmd-6f64-c724"],
+      }),
+    });
+    const result = await analysis.json();
+    check(
+      analysis.status === 200 && result.catalog.status === "preview",
+      "FE analysis",
+    );
+    check(
+      JSON.stringify(result.data.grids.map((grid) => grid.total)) ===
+        "[26,17,23,33]",
+      "grid totals",
+    );
+  }
 });
+
+if (process.env.PREVIEW_IP_SOURCE === "local") {
+  await run("FE→BE→SAZU 무료 샘플·서명 쿠키·캐시 연결", async () => {
+    const input = {
+      birthDate: "1998-05-19",
+      birthTime: "10:00",
+      gender: "male",
+      birthCity: "서울",
+      consent: true,
+    };
+    const first = await request("/api/sazu", {
+      method: "POST",
+      headers: { Origin: origin, "Content-Type": "application/json" },
+      body: JSON.stringify(input),
+    });
+    const result = (await first.json()).data;
+    check(first.status === 200 && result?.sample === true, "sample response");
+    check(
+      result.pillars.length === 4 && result.elements.length === 5,
+      "sample fields",
+    );
+    check(
+      result.pillars.every((pillar) => pillar.sky && pillar.earth && pillar.sippiSeong && pillar.earthSippiSeong && pillar.jiJangGan),
+      "eight characters and pillar annotations",
+    );
+    check(
+      result.providerData?.topics.join(",") === "manse,life" &&
+        Object.keys(result.providerData.modules).length === 9 &&
+        result.details?.wongukInteraction?.relations.length > 0 &&
+        result.details?.decadeFortune?.list.length > 0 &&
+        result.details?.yongsin && result.details?.gyeokguk,
+      "full natal and life modules",
+    );
+    check(
+      Date.parse(result.expiresAt) > Date.now() && result.previewId,
+      "preview metadata",
+    );
+    const cookies = first.headers.getSetCookie();
+    check(
+      cookies.some(
+        (cookie) =>
+          cookie.startsWith("ireum-preview-visitor=") &&
+          /httponly/i.test(cookie),
+      ),
+      "signed visitor cookie",
+    );
+    const second = await request("/api/sazu", {
+      method: "POST",
+      headers: {
+        Origin: origin,
+        "Content-Type": "application/json",
+        Cookie: cookies.map((cookie) => cookie.split(";")[0]).join("; "),
+      },
+      body: JSON.stringify(input),
+    });
+    const cached = (await second.json()).data;
+    check(
+      second.status === 200 &&
+        cached.previewId === result.previewId &&
+        cached.expiresAt === result.expiresAt &&
+        JSON.stringify(cached.providerData) === JSON.stringify(result.providerData),
+      "cached preview",
+    );
+  });
+}
