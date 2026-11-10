@@ -25,6 +25,7 @@ npm run dev
 
 ## 연결 설정
 
+- 운영 배포 주소·직접 설정할 환경변수·로그인 리다이렉트: [DEPLOYMENT_SETUP.md](./DEPLOYMENT_SETUP.md).
 - 최신 한자 v2·실제 필획 기준: [HANJA_PROVIDER_V2_20261105.md](./HANJA_PROVIDER_V2_20261105.md).
 - 사주 무료 샘플·9개 모듈 검증: [BACKEND_SAZU_INTEGRATION_20261105.md](./BACKEND_SAZU_INTEGRATION_20261105.md).
 - Supabase 로컬 설정·원격 DB 적용 기록: [BACKEND_SUPABASE_STATUS_20261104.md](./BACKEND_SUPABASE_STATUS_20261104.md). 한자와 SAZU 상태는 위의 11월 5일 문서가 최신입니다.

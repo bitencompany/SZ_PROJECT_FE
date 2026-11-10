@@ -26,12 +26,20 @@
 
 백엔드의 11월 10일 보강본은 `hanja-v2-20261105-a7501e11d71e`입니다. 글자·독음 쌍 9,904개이며 뜻 확보 7,309개, 뜻 미확보 2,595개입니다. ID·획수 기준은 유지됩니다. 원본 사전에 명시된 순한글 뜻 101개가 추가되었습니다. 카탈로그 상태는 여전히 `preview`이며 법원 최신 원문 전수 대조와 전체 뜻 검수가 남아 있습니다.
 
+## main과 웹사이트 배포
+
+- 한자·사주 화면과 로그인 수정 커밋을 원격 main에 fast-forward로 반영했습니다. 검증 대상 SHA: `bfafebd99d66fe196d1f7f0f153a38e6008be9e7`.
+- [GitHub Actions 실제 실행](https://github.com/bitencompany/SZ_PROJECT_FE/actions/runs/42758189338): main의 테스트·빌드·타입 검사 성공.
+- INHA Chrome에서 `ojackgyo-project/sz-project-fe`의 Production Deployment **Ready** 및 https://sz-project-fe.vercel.app 주소를 확인했습니다.
+- 운영 FE 홈·로그인 HTTP 200, 비회원 풀이함 307을 확인했습니다. 환경변수 미설정으로 로그인은 준비 중이고 회원 API는 503입니다.
+- 사용자가 환경변수를 직접 설정하기로 선택했습니다. 로컬 비밀값을 Vercel로 전송하지 않았습니다. [프로젝트별 설정 목록과 재배포 순서](./DEPLOYMENT_SETUP.md)를 따릅니다.
+
 ## 운영 전 남은 조건
 
 - 실계정 이름 입력의 저장·재조회·새로고침 유지·로그아웃 후 차단은 완료했습니다. 개인 출생정보와 유료 풀이·결제는 이번 검증에 포함하지 않았습니다.
 - SAZU는 무료 키이므로 실제 개인 출생정보 분석은 검증할 수 없습니다. 유료 플랜·키 전환이 필요합니다.
 - 백엔드에 OpenAI 키·검증한 모델이 아직 없어 AI 상세 풀이 실호출·품질 검증은 남아 있습니다.
 - 결제는 비활성입니다. PG 계약·상품 가격·승인/취소/웹훅·대사·환불 검증이 필요합니다.
-- 운영 FE/BE HTTPS 주소·환경변수·Supabase 및 Kakao 리다이렉트·스케줄·도메인 설정과 배포 후 검증이 필요합니다.
+- FE/BE HTTPS 웹사이트는 배포되었습니다. 운영 환경변수·Supabase 리다이렉트·재배포 및 운영 환경의 전체 흐름 검증은 사용자의 직접 설정 후 이어서 확인해야 합니다.
 
 참고: [Kakao 오류 코드](https://developers.kakao.com/docs/en/kakaologin/trouble-shooting), [Supabase Kakao 공급자 구현](https://github.com/supabase/auth/blob/master/internal/api/provider/kakao.go), [법원 인명용 한자 조회](https://efamily.scourt.go.kr/cs/CsBltnWrtList.do?bltnbordId=0000010).
