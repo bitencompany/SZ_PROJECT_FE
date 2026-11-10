@@ -99,7 +99,7 @@ test("분석 요청은 사용자 ID·가격·결제 여부를 거부하고 저�
 
 test("로그인 시작 실패·취소·콜백 오류 후에도 안전한 복귀 화면을 유지한다", () => {
   const next = "/checkout?request=e9a4ef95-834e-4007-959b-84918d9a9a24";
-  for (const error of ["start", "callback", "cancelled"] as const) {
+  for (const error of ["start", "callback", "cancelled", "expired"] as const) {
     const url = new URL(
       loginErrorPath(error, next),
       "https://frontend.example",

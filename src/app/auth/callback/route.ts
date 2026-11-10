@@ -20,6 +20,8 @@ export async function GET(request: Request): Promise<Response> {
     const code = url.searchParams.get("code");
     if (url.searchParams.get("error") === "access_denied")
       destination = loginErrorPath("cancelled", next);
+    if (url.searchParams.get("error") === "login_expired")
+      destination = loginErrorPath("expired", next);
     if (code && !url.searchParams.has("error")) {
       const client = await createAuthClient(true);
       if (client) {

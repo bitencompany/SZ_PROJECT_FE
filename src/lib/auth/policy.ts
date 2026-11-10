@@ -12,7 +12,7 @@ export function safeReturnPath(value: unknown): string {
 }
 
 export function loginErrorPath(
-  error: "start" | "callback" | "cancelled",
+  error: "start" | "callback" | "cancelled" | "expired",
   next: unknown,
 ): string {
   return `/login?${new URLSearchParams({ error, next: safeReturnPath(next) })}`;

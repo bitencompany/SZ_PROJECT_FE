@@ -106,12 +106,37 @@ await run("OAuth 시작·PKCE·HttpOnly 및 취소 후 복귀", async () => {
       "s256",
     "pkce",
   );
-  const scope = location.searchParams.get("scopes") ?? "";
+  const scope = location.searchParams.get("scope") ?? "";
   check(
     scope.includes("profile_nickname") &&
       scope.includes("profile_image") &&
       !scope.includes("email"),
     "optional scopes",
+  );
+  // Supabase가 실제 Kakao로 전달하는 권한까지 확인합니다.
+  const provider = await fetch(location, {
+    redirect: "manual",
+    signal: AbortSignal.timeout(10000),
+  });
+  check(provider.status === 302, "provider redirect");
+  const kakao = new URL(provider.headers.get("location"));
+  check(
+    kakao.origin === "https://kauth.kakao.com" &&
+      kakao.pathname === "/oauth/authorize",
+    "kakao destination",
+  );
+  const actualScopes = (kakao.searchParams.get("scope") ?? "")
+    .split(/[ ,]+/).filter(Boolean).sort();
+  check(
+    JSON.stringify(actualScopes) ===
+      JSON.stringify(["profile_image", "profile_nickname"]),
+    "actual kakao scopes exclude email",
+  );
+  check(!!kakao.searchParams.get("state"), "provider state");
+  check(
+    kakao.searchParams.get("redirect_uri") ===
+      `${new URL(process.env.SUPABASE_URL).origin}/auth/v1/callback`,
+    "provider callback",
   );
   const cookies = response.headers.getSetCookie();
   check(
@@ -148,7 +173,26 @@ await run("코드 없는 콜백은 로그인 실패 안내로 복귀", async () 
   );
 });
 
-await run("로컬 BE 공유 비밀 연결·부분 카탈로그 상태", async () => {
+await run("Site URL로 돌아온 OAuth 만료·취소 오류 정리", async () => {
+  for (const [query, message] of [
+    ["error=invalid_request&error_code=bad_oauth_state&error_description=PRIVATE_PROVIDER_ERROR", "expired"],
+    ["error=access_denied&error_description=PRIVATE_PROVIDER_ERROR", "cancelled"],
+    ["error=server_error&error_description=PRIVATE_PROVIDER_ERROR", "callback"],
+  ]) {
+    const response = await request(`/?${query}`);
+    check(response.status === 307, "site error redirect");
+    const callback = new URL(response.headers.get("location"), origin);
+    check(callback.origin === origin && callback.pathname === "/auth/callback", "safe callback");
+    check(!callback.href.includes("PRIVATE_PROVIDER_ERROR"), "provider details removed");
+    const completed = await request(callback.pathname + callback.search);
+    const login = new URL(completed.headers.get("location"), origin);
+    check(completed.status === 303 && login.pathname === "/login", "login recovery");
+    check(login.searchParams.get("error") === message, "recovery message");
+    check(completed.headers.get("referrer-policy") === "no-referrer", "recovery referrer");
+  }
+});
+
+await run("로컬 BE 공유 비밀·한자 v2·필획 계산 연결", async () => {
   const backend = new URL(process.env.BACKEND_API_URL);
   check(backend.hostname === "127.0.0.1", "local backend only");
   const url = new URL("/api/hanja?reading=김", backend);
@@ -167,8 +211,12 @@ await run("로컬 BE 공유 비밀 연결·부분 카탈로그 상태", async ()
     authorized.status === 200 &&
       body.catalog?.status === "preview" &&
       Array.isArray(body.data) &&
-      body.data.length === 0,
-    "partial catalog: 김 is not covered",
+      body.catalog.version.startsWith("hanja-v2-") &&
+      body.data.some((h) =>
+        h.character === "金" && h.reading === "김" &&
+        h.strokes === 8 && h.dictionaryStrokes === 8 &&
+        h.strokeBasis === "written"),
+    "v2 catalog covers surname 김 with written strokes",
   );
   if (process.env.BACKEND_NAME_ENABLED === "true") {
     const gang = await request("/api/hanja?reading=강&q=성%20강");
@@ -202,7 +250,7 @@ await run("로컬 BE 공유 비밀 연결·부분 카탈로그 상태", async ()
     );
     check(
       JSON.stringify(result.data.grids.map((grid) => grid.total)) ===
-        "[26,17,23,33]",
+        "[25,17,22,32]",
       "grid totals",
     );
   }

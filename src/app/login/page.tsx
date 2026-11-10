@@ -15,13 +15,15 @@ export default async function Login({
   const message =
     params.error === "logout"
       ? "로그아웃하지 못했어요. 잠시 후 다시 시도해 주세요."
-      : params.error === "cancelled"
-        ? "카카오 로그인을 취소했어요. 입력 내용은 같은 탭에서 30분 동안 임시 보관됩니다."
-        : params.error
-          ? "로그인이 완료되지 않았어요. 다시 시도하거나 무료 체험을 계속할 수 있어요."
-          : auth.status === "unavailable"
-            ? "로그인 연결이 원활하지 않아요. 잠시 후 다시 시도해 주세요."
-            : null;
+      : params.error === "expired"
+        ? "로그인 요청 시간이 지났어요. 카카오로 시작하기를 눌러 다시 로그인해 주세요."
+        : params.error === "cancelled"
+          ? "카카오 로그인을 취소했어요. 입력 내용은 같은 탭에서 30분 동안 임시 보관됩니다."
+          : params.error
+            ? "로그인이 완료되지 않았어요. 다시 시도하거나 무료 체험을 계속할 수 있어요."
+            : auth.status === "unavailable"
+              ? "로그인 연결이 원활하지 않아요. 잠시 후 다시 시도해 주세요."
+              : null;
   return (
     <main className="account-page">
       <a className="brand" href="/">
