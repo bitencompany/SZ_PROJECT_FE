@@ -9,7 +9,7 @@
 3. Supabase Authentication의 URL Configuration에서 Site URL을 APP_URL로 설정하고 Redirect URL에 `APP_URL/auth/callback`을 정확히 등록합니다. 운영 도메인도 별도로 등록합니다.
 4. 카카오 Developers에서 앱을 생성하고 카카오 로그인을 활성화합니다. REST API 키·활성화된 Client Secret은 Supabase의 Kakao provider에 입력합니다. FE 코드나 채팅에 붙이지 않습니다.
 5. 카카오의 Redirect URI에는 **Supabase 대시보드에 표시된 OAuth callback URL**(`https://PROJECT.supabase.co/auth/v1/callback`)을 등록합니다. FE 콜백 주소와 다릅니다.
-6. 카카오 동의항목은 닉네임·프로필 이미지를 선택 동의로 설정하고, Supabase Kakao 설정의 **Allow users without an email**을 켭니다. FE는 `queryParams: { scope: "profile_nickname profile_image" }`로 실제 요청 권한을 지정하며 이메일을 식별키로 쓰지 않습니다. `options.scopes`는 Supabase 기본 권한에 추가되므로 `account_email`을 제거하지 못합니다. 이메일 권한이 없는 앱에서는 `KOE205`가 발생하므로 실제 Kakao 리다이렉트의 scope까지 검증합니다. 화면에서는 닉네임·이미지를 표시하지 않습니다.
+6. 카카오 동의항목은 닉네임·프로필 이미지를 선택 동의로 설정하고, Supabase Kakao 설정의 **Allow users without an email**을 켭니다. FE는 `queryParams: { scope: "" }`로 Supabase 기본 이메일 권한을 제거하고 추가 프로필 동의를 요청하지 않습니다. `options.scopes`는 Supabase 기본 권한에 추가되므로 `account_email`을 제거하지 못합니다. `scope`에 프로필 항목을 명시하면 이미 거절한 사용자에게 재로그인 시 추가 동의를 요구하므로 사용하지 않습니다. 실제 Kakao 리다이렉트의 scope까지 검증하며 이메일을 식별키로 쓰거나 닉네임·이미지를 화면에 표시하지 않습니다.
 7. `BACKEND_OPERATIONS_SETUP_20261030.md`의 전체 BE 마이그레이션 순서로 DB를 설정합니다. 초기 FE SQL만 적용하지 않습니다. 두 번째 BE migration 이후 authenticated 직접 insert가 차단되므로 새 FE BFF와 함께 적용합니다. BE가 검증하는 Supabase JWT signing key는 ES256/RS256 JWKS여야 합니다.
 8. FE와 BE에 동일한 `BFF_SHARED_SECRET`(최소 32바이트), FE `BACKEND_API_URL`을 설정합니다. 추가 미리보기 설정은 `FRONTEND_INTEGRATION_20261030.md`를 따릅니다.
 9. 개발 서버를 재시작하고 무료 미리보기 → 상세 보기 → 카카오 로그인 → 입력 확인·저장 → 내 풀이함을 확인합니다. 취소 후 복귀와 로그아웃도 확인합니다.

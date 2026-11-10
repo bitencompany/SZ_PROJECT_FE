@@ -106,12 +106,11 @@ await run("OAuth 시작·PKCE·HttpOnly 및 취소 후 복귀", async () => {
       "s256",
     "pkce",
   );
-  const scope = location.searchParams.get("scope") ?? "";
   check(
-    scope.includes("profile_nickname") &&
-      scope.includes("profile_image") &&
-      !scope.includes("email"),
-    "optional scopes",
+    location.searchParams.has("scope") &&
+      location.searchParams.get("scope") === "" &&
+      !location.searchParams.has("scopes"),
+    "no additional profile scopes",
   );
   // Supabase가 실제 Kakao로 전달하는 권한까지 확인합니다.
   const provider = await fetch(location, {
@@ -128,9 +127,8 @@ await run("OAuth 시작·PKCE·HttpOnly 및 취소 후 복귀", async () => {
   const actualScopes = (kakao.searchParams.get("scope") ?? "")
     .split(/[ ,]+/).filter(Boolean).sort();
   check(
-    JSON.stringify(actualScopes) ===
-      JSON.stringify(["profile_image", "profile_nickname"]),
-    "actual kakao scopes exclude email",
+    actualScopes.length === 0,
+    "actual kakao scopes do not request additional personal data",
   );
   check(!!kakao.searchParams.get("state"), "provider state");
   check(

@@ -31,8 +31,9 @@ export async function POST(request: Request): Promise<Response> {
       provider: "kakao",
       options: {
         redirectTo: `${config.origin}/auth/callback`,
-        // scopes는 Supabase 기본 권한에 추가되므로 이메일을 제거하지 못합니다.
-        queryParams: { scope: "profile_nickname profile_image" },
+        // Supabase 기본 account_email을 제거합니다. 프로필 권한을 명시하면
+        // 이미 거절한 사용자에게도 추가 동의를 강제하므로 빈 scope를 전달합니다.
+        queryParams: { scope: "" },
         skipBrowserRedirect: true,
       },
     });
